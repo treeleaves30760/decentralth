@@ -51,6 +51,14 @@ import {
 export default {
     name: 'Profile',
     setup() {
+        if (window.ethereum) {
+            window.ethereum.enable().then((res) => {
+                console.log(res)
+                console.log("Check Metamask")
+            })
+        } else {
+            alert("Please install Metamask")
+        }
         const { open } = useBoard()
         const { status, disconnect, error } = useWallet()
         const { address, balance, chainId, isActivated } = useEthers()
