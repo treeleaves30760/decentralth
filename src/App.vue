@@ -8,6 +8,15 @@
   <router-view/>
 </template>
 
+<script>
+export default {
+  setup() {
+    return {
+    }
+  },
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -18,15 +27,19 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 1rem;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #000000;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #8a008a;
+}
+
+#logo {
+  width: 3rem;
 }
 </style>
