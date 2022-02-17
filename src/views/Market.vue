@@ -1,25 +1,18 @@
 <template>
     <div>
-        <h1>This is Market</h1>
-        <div class="Sell_List flex">
-            <div v-for="NFT in NFT_list" :key="NFT" class="NFT_card flex">
-                <img v-bind:src="NFT.Img" v-bind:alt="NFT.Img" class="NFT_img">
-                <h1>Name {{NFT.name}}</h1>
-                <div> 
-                    Description   
-                    <p>{{NFT.description}}</p>
-                </div>
-            </div>
+        <h1>Market</h1>
+        <div class="Sell_List">
+            <NFTCard v-for="NFT in NFT_list" :key="NFT" v-bind:Description="NFT.description" v-bind:ImgURL="NFT.Img" v-bind:Name="NFT.name"  />
         </div>
     </div>
 </template>
 
 <script>
-
+import NFTCard from "../components/NFT_card.vue"
 export default {
     name: 'Market',
     components: {
-
+        NFTCard,
     },
     setup() {
         if (window.ethereum) {
@@ -34,7 +27,7 @@ export default {
             {
                 name: "Test01",
                 description: "This is Test01",
-                Img: "https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/p843x403/270280073_1964539197052462_7541759068172180095_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=0pjaKPYaUckAX91SgMR&_nc_ht=scontent-tpe1-1.xx&oh=00_AT8iDwmdo6-TSbax60lt0zXNQSWMgB4-e23LG0POGWaH4g&oe=62142984",
+                Img: "https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/p843x403/245599100_1906974256142290_559860839121382224_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=Z3FPsmtz_woAX8c69Gl&_nc_ht=scontent-tpe1-1.xx&oh=00_AT9hBqXinwnR_4rSqYCjFzMPMWaC1KJkZOmIRdxSP2j1-w&oe=62125F03",
             },
             {
                 name: "Test02",
@@ -56,10 +49,13 @@ export default {
 </script>
 
 <style>
-.NFT_img {
-    width: 30%;
+.Sell_List {
+    margin: 5%;
+    display: flex;
 }
-.NFT_card {
-    width: 25%;
+
+NFTCard {
+    display: flex;
+    width: 20%;
 }
 </style>

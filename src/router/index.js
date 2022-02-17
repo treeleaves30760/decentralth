@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Market from '../views/Market.vue'
+import Profile from "../views/Profile.vue"
+import SingleNFT from "../views/SingleNFT.vue"
+import NotFound from '../views/NotFound.vue'
 
 const routes = [
   {
@@ -18,13 +22,22 @@ const routes = [
   {
     path: '/market',
     name: 'Market',
-    component: () => import('../views/Market.vue')
+    component: Market
   },
   {
     path: '/profile',
     name: 'Profile',
-    component:() => import('../views/Profile.vue')
-  }
+    component: Profile
+  },
+  {
+    path: '/assets/:tokenId',
+    name: 'TokenId',
+    component: SingleNFT
+  },
+  { path: '/:pathMatch(.*)*', 
+    name: 'NotFound', 
+    component: NotFound 
+  },
 ]
 
 const router = createRouter({
