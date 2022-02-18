@@ -7,7 +7,9 @@
             </div>
             {{description}}
         </div>
-        <button class="toBuy">Buy now</button>
+        <a v-bind:href="link">
+            <button class="toBuy">Buy now</button>
+        </a>
     </div>
 </template>
 
@@ -15,16 +17,23 @@
 import { toRef } from '@vue/reactivity';
 export default {
     name: "NFT_card",
-    props: ['Name', "Description", "ImgURL"],
+    props: ['Name', "Description", "ImgURL", "TokenId", "Contract_address"],
     setup(props) {
         const name = toRef(props, 'Name');
         const description = toRef(props, 'Description');
         const imgURL = toRef(props, 'ImgURL');
+        const tokenId = toRef(props, "TokenId")
+        const contract_address = toRef(props, "Contract_address")
 
+        const link = "/" + contract_address.value + "/" + tokenId.value
+        console.log(contract_address)
         return {
             name,
             description,
             imgURL,
+            tokenId,
+            contract_address,
+            link
         }
     },
 }
