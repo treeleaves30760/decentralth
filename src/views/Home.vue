@@ -1,6 +1,8 @@
 <template>
-  <div class="home">
-    <img :src="smalllogoimg" alt="Decentral-TH" class="logo">
+  <div class="container">
+    <div class="home">
+      <img :src="smalllogoimg" alt="Decentral-TH" class="logo">
+    </div>
   </div>
 </template>
 
@@ -18,3 +20,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.home {
+  margin: auto;
+  width: 60%;
+}
+</style>

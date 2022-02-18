@@ -4,6 +4,7 @@ import Market from '../views/Market.vue'
 import Profile from "../views/Profile.vue"
 import SingleNFT from "../views/SingleNFT.vue"
 import NotFound from '../views/NotFound.vue'
+import Help from "../views/Help.vue"
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    component: Help
   },
   {
     path: '/:contract_address/:tokenId',
