@@ -1,5 +1,7 @@
 <template>
     <h1>Single NFT Page</h1>
+    <div>{{$route.params.tokenId}}</div>
+    <div>{{$route.params.contract_address}}</div>
 </template>
 
 <script>
@@ -9,7 +11,6 @@ export default {
     setup() {
         const router = useRouter()
         const route = useRoute()
-
         console.log(router, route)
     },
 }

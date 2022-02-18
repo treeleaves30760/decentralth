@@ -30,7 +30,7 @@ const routes = [
     component: Profile
   },
   {
-    path: '/:contractAddress/:tokenId',
+    path: '/:contract_address/:tokenId',
     name: 'TokenId',
     component: SingleNFT
   },
