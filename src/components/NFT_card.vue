@@ -1,23 +1,25 @@
 <template>
-    <div class="NFT_card">
+    <div class="card">
         <div class="imgPart">
-            <img v-bind:src="imgURL" v-bind:alt="name" class="NFT_img">
+            <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
         </div>
         <hr>
-        <div class="info">
-            <div class="NFT_name">
-                Name {{name}}
+        <div class="card_body">
+            <div class="info">
+                <div class="NFT_name">
+                    Name {{name}}
+                </div>
+                <div class="NFT_description">
+                    {{description}}
+                </div>
+                
             </div>
-            <div class="NFT_description">
-                {{description}}
+            <div class="NFT_price">
+                Price: {{price}} NTtoken
             </div>
-            
+            <hr>
+            <router-link :to="link"><button class="toBuy btn btn-outline-primary">Buy now</button></router-link>
         </div>
-        <div class="NFT_price">
-            Price: {{price}}
-        </div>
-        <hr>
-        <button v-bind:href="link" class="toBuy">Buy now</button>
     </div>
 </template>
 
@@ -56,21 +58,32 @@ export default {
 </script>
 
 <style scoped>
-.NFT_card {
+.card {
     border-radius: 1rem;
     width: 12rem;
-    height: 23rem;
-    margin: 1rem;
+    height: auto;
+    margin: 0.5rem;
     box-shadow:0px 0px 1px 1px #cccccc;
 }
 .imgPart {
     margin: 1rem 0 0 0;
-    height: 60%;
+    height: 50%;
 }
-.NFT_img {
-    align-content: center;
+
+.card-img-top {
     max-width: 100%;
     max-height: 100%;
+    height: 100%;
+    width: auto;
+}
+
+.card_body {
+    height: 30%;
+}
+
+.NFT_img {
+    align-content: center;
+    height: 60%;
 }
 .info {
     display: block;
@@ -81,7 +94,5 @@ export default {
 .NFT_price {
     width: 100%;
 }
-.toBuy {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
+
 </style>
