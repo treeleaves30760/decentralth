@@ -1,14 +1,27 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
+    <div class="bg-image container-fluid"></div>
     <div class="home">
-      <img :src="smalllogoimg" alt="Decentral-TH" class="logo">
+      <div class="introductionPart">
+        <div class="row">
+          <div class="flex introWords col-6 align-self-center">
+            <b><h1>Welcome to Decentral-TH Exchange</h1></b>
+            <router-link to="/market"><button class="btn btn-outline-primary btn-lg">Explore</button></router-link>
+          </div>
+          <div class="flex introPic col-6">
+            <img :src="logo" alt="Decentral-TH">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  
 </template>
 
 <script>
 // @ is an alias to /src
 import smalllogoimg from "@/assets/smalllogo.svg"
+import logo from "@/assets/logo.svg"
 export default {
   name: 'Home',
   components: {
@@ -16,6 +29,7 @@ export default {
   setup() {
     return {
       smalllogoimg,
+      logo
     }
   }
 }
@@ -24,6 +38,28 @@ export default {
 <style scoped>
 .home {
   margin: auto;
-  width: 60%;
+  height: 1000rem;
 }
+
+.bg-image {
+  background-image: url("../assets/logo.svg");
+
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  opacity: 40%;
+  z-index: -10;
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  background-position-x: 0;
+  background-position-y: -20rem;
+}
+
 </style>
