@@ -2,15 +2,16 @@
 
   <nav id="nav" class="navbar sticky-top shadow-lg">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <div class="row">
-          <div class="Logo col-6">
-            <img :src="smalllogoimg" alt="Decentral-TH" class="logo">
+      
+        <div class="navbar-header">
+          <div class="row">
+            <div class="Logo col-6">
+              <router-link to="/"><img :src="smalllogoimg" alt="Decentral-TH" class="logo"></router-link>
+            </div>
+            <a class="navbar-brand col-4 align-self-center" href="/">Decentral-TH</a>
           </div>
-          <a class="navbar-brand col-4 align-self-center" href="#">Decentral-TH</a>
         </div>
-        
-      </div>
+      
       
       <div class="Links">
         <router-link to="/">Home</router-link>  |
