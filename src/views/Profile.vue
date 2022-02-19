@@ -56,18 +56,19 @@
             <div class="CheckInPart">
                 <button @click="CheckIn">簽到</button>
             </div>
+            <div class="AllNFT">
+                <button @click="GetAllTokenIds">測試</button>
+            </div>
         </div>
     </div>
     <vdapp-board />
 </template>
 
 <script>
-import web3 from 'web3'
 import Swal from 'sweetalert2'
-import NFTAbi from "../contractabi/NFTabi.json"
-import TokenAbi from "../contractabi/tokenabi.json"
-import AuctionAbi from "../contractabi/auctionabi.json"
-import Moralis from 'moralis'
+import Moapi from "../Moralis/Marolis"
+import BuildContracts from "../Contract/Contract"
+import { ref } from '@vue/reactivity'
 
 import {
   useBoard,
@@ -77,31 +78,6 @@ import {
   displayEther,
   shortenAddress,
 } from 'vue-dapp'
-import { ref } from '@vue/reactivity'
-const serverUrl = "https://q35jbv5jagyw.usemoralis.com:2053/server";
-const appId = "1kfWR1GvtpZwlXDhJ3sG1Fv9twJzjZ3zcn2DkBjq";
-Moralis.start({ serverUrl, appId });
-const options = { address: "0x2A26AA5bE62947D6bE159D4D96bE8cf3Abe21A88", chain: "rinkeby" };
-async function getNFT() {
-	const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-	console.log(NFTs)
-}
-async function BuildContracts () {
-    const NFTContractAddress = "0x2A26AA5bE62947D6bE159D4D96bE8cf3Abe21A88"
-    const TokenContractAddress = "0x1B0aDD45895e5D2d09aaeFEf2E90591C7F0f85db"
-    const AuctionContractAddress = "0x3F73C573F147895A94D48ABBA1FC1c9EDcA4218a"
-
-    var w3 = new web3(window.ethereum);
-    var NFTContract = new w3.eth.Contract( NFTAbi, NFTContractAddress);
-    var TokenContract = new w3.eth.Contract( TokenAbi, TokenContractAddress);
-    var AuctionContract = new w3.eth.Contract( AuctionAbi, AuctionContractAddress);
-
-    return {
-        NFTContract,
-        TokenContract,
-        AuctionContract
-    }
-}
 
 export default {
     name: 'Profile',
@@ -109,7 +85,6 @@ export default {
         var contracts
         const UserBalance = ref(0)
         const UserAddress = ref("")
-        getNFT().then(console.log)
         // Check UserAddress and Balance
         if (window.ethereum) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then((res) => {
@@ -117,19 +92,15 @@ export default {
                 console.log(UserAddress)
                 console.log("Metamask Checked")
             }).then(() => {
-                BuildContracts().then((res) => {
+                BuildContracts.Contracts().then((res) => {
                     contracts = res
-                    console.log(contracts)
                     return contracts
                 }).then((contracts) => {
                     contracts.TokenContract.methods.getLoginTable(UserAddress.value).call().then(res=>{
-                        console.log(res)
-                        console.log(res[18],res[19],res[20])
+                        console.log("The login date", res)
                     });
                     contracts.TokenContract.methods.balanceOf(UserAddress.value).call().then((res) => {
                         UserBalance.value = res / (10**18)
-                        console.log(res)
-                        console.log(UserBalance)
                     })
                 })
             })
@@ -155,6 +126,12 @@ export default {
             })
         }
 
+        function GetAllTokenIds() {
+            Moapi.ContractgetAllTokenIds().then((res) => {
+                console.log(res)
+            })
+        }
+
         const { open } = useBoard()
         const { status, disconnect, error } = useWallet()
         const { address, balance, chainId, isActivated } = useEthers()
@@ -164,6 +141,7 @@ export default {
             UserAddress,
             contracts,
             CheckIn,
+            GetAllTokenIds,
             open, 
             status, 
             disconnect, 

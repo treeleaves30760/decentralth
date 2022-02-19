@@ -13,10 +13,10 @@
       </div>
       
       <div class="Links">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/market">Market</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/Help">Help</router-link> |
+        <router-link to="/">Home</router-link>  |
+        <router-link to="/market">Market</router-link>  |
+        <router-link to="/about">About</router-link>  |
+        <router-link to="/Help">Help</router-link>  |
         <router-link to="/profile">Profile</router-link>
       </div>
     </div>
@@ -47,7 +47,8 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #000000;
+  font-size: 1.3rem;
+  color: #111111;
 }
 
 #nav a.router-link-exact-active {

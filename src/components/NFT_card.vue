@@ -1,18 +1,17 @@
 <template>
-    <div class="card">
+    <div class="card d-flex col-xl-2 col-lg-3 col-md-4 col-sm-4">
         <div class="imgPart">
             <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
         </div>
         <hr>
         <div class="card_body">
             <div class="info">
-                <div class="NFT_name">
+                <h5 class="card-title">
                     Name {{name}}
-                </div>
-                <div class="NFT_description">
+                </h5>
+                <p class="card-text">
                     {{description}}
-                </div>
-                
+                </p>
             </div>
             <div class="NFT_price">
                 Price: {{price}} NTtoken
@@ -33,7 +32,8 @@ export default {
         "ImgURL", 
         "Price",
         "TokenId", 
-        "Contract_address"],
+        "Contract_address",
+    ],
     setup(props) {
         const name = toRef(props, 'Name');
         const description = toRef(props, 'Description');
@@ -51,7 +51,7 @@ export default {
             price,
             tokenId,
             contract_address,
-            link
+            link,
         }
     },
 }
@@ -60,9 +60,8 @@ export default {
 <style scoped>
 .card {
     border-radius: 1rem;
-    width: 12rem;
-    height: auto;
     margin: 0.5rem;
+    min-width: auto;
     box-shadow:0px 0px 1px 1px #cccccc;
 }
 .imgPart {
@@ -87,12 +86,6 @@ export default {
 }
 .info {
     display: block;
-}
-.NFT_name {
-    text-justify: auto;
-}
-.NFT_price {
-    width: 100%;
 }
 
 </style>
