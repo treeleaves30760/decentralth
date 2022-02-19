@@ -67,6 +67,7 @@ import Swal from 'sweetalert2'
 import NFTAbi from "../contractabi/NFTabi.json"
 import TokenAbi from "../contractabi/tokenabi.json"
 import AuctionAbi from "../contractabi/auctionabi.json"
+import Moralis from 'moralis'
 
 import {
   useBoard,
@@ -77,7 +78,14 @@ import {
   shortenAddress,
 } from 'vue-dapp'
 import { ref } from '@vue/reactivity'
-
+const serverUrl = "https://q35jbv5jagyw.usemoralis.com:2053/server";
+const appId = "1kfWR1GvtpZwlXDhJ3sG1Fv9twJzjZ3zcn2DkBjq";
+Moralis.start({ serverUrl, appId });
+const options = { address: "0x2A26AA5bE62947D6bE159D4D96bE8cf3Abe21A88", chain: "rinkeby" };
+async function getNFT() {
+	const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+	console.log(NFTs)
+}
 async function BuildContracts () {
     const NFTContractAddress = "0x2A26AA5bE62947D6bE159D4D96bE8cf3Abe21A88"
     const TokenContractAddress = "0x1B0aDD45895e5D2d09aaeFEf2E90591C7F0f85db"
@@ -101,7 +109,7 @@ export default {
         var contracts
         const UserBalance = ref(0)
         const UserAddress = ref("")
-
+        getNFT().then(console.log)
         // Check UserAddress and Balance
         if (window.ethereum) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then((res) => {
