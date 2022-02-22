@@ -13,7 +13,7 @@
 				<div class="col">
 
 				</div>
-				<div class="col-8 text-sm-center text-lg-start">
+				<div class="col-8 text-sm-center text-lg-start fw-bold fs-3">
 					<p>Address: {{ address }}</p>
 					<p>Eth: {{ displayEther(balance) }} ETH</p>
 					<p>Token: {{ UserBalance }}</p>
