@@ -1,28 +1,16 @@
 <template>
-	<!-- <div>
-        <h1>This Is Profile</h1>
-        <button @click="open">Connect</button>
-            {{ address }}
-        <vdapp-board />
-    </div> -->
-	<div>
+	<div class="profile">
 		<p v-if="error">{{ error }}</p>
 
 		<div class="container">
 			<div class="row">
-				<div class="col">
-
+				<div class="col align-items-center">
+					<Avatar :size="200" :colors="colors" class="Heads"/>
 				</div>
-				<div class="col-8 text-sm-center text-lg-start fw-bold fs-3">
-					<p>Address: {{ address }}</p>
+				<div class="col-sm-12 col-lg-8 text-sm-center text-lg-start fw-bold fs-3">
+					<p>Address: {{ shortenAddress(address) }}</p>
 					<p>Eth: {{ displayEther(balance) }} ETH</p>
 					<p>Token: {{ UserBalance }}</p>
-					<p>
-						network:
-						<span class="capitalize">
-							{{ displayChainName(chainId) }}
-						</span>
-					</p>
 				</div>
 			</div>
 		</div>
@@ -61,12 +49,22 @@
 				</button>
 			</div>
 		</div>
-		<!-- <div>
-			<div class="AllNFT">
-				<button @click="GetAllTokenIds">測試</button>
+		<div class="position-relative">
+			<hr class="position-absolute top-50 start-50 translate-middle" style="width: 80%;">
+		</div>
+		<div class="AllOwnedNFT container">
+			<div class="row">
+				<div class="col-sm-10 col-md-4">
+					<div class="input-group mt-3">
+						<input type="search" class="form-control" placeholder="NFT Name or Description" aria-label="NFT Name or Description" aria-describedby="button-addon2">
+						<button type="button" class="btn btn-primary">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
+				</div>
 			</div>
-		</div> -->
-	</div>
+		</div>
+		</div>
 	<vdapp-board />
 </template>
 
@@ -75,7 +73,7 @@
 	import Moapi from "../Moralis/Marolis";
 	import BuildContracts from "../Contract/Contract";
 	import { ref } from "@vue/reactivity";
-
+	import Avatar from "vue-boring-avatars";
 	import {
 		useBoard,
 		useEthers,
@@ -84,14 +82,26 @@
 		displayEther,
 		shortenAddress,
 	} from "vue-dapp";
+	import { computed } from '@vue/runtime-core';
 
 	export default {
 		name: "Profile",
+		components: {
+			Avatar,
+		},
 		setup() {
 			var contracts;
 			const UserBalance = ref(0);
 			const UserAddress = ref("");
+			const colors = ref(computed(() => {
+				var L = []
+				for (var i = 0; i < 5; i++) {
+					L.push("#" + UserAddress.value.substr(i * 6, 6))
+				}
+				return L
+			}))
 			// Check UserAddress and Balance
+			console.log("Address", window.ethereum.selectedAddress)
 			if (window.ethereum) {
 				window.ethereum
 					.request({ method: "eth_requestAccounts" })
@@ -173,7 +183,23 @@
 				displayChainName,
 				displayEther,
 				shortenAddress,
+				colors,
 			};
 		},
 	};
 </script>
+
+<style scoped>
+.profile {
+	padding: 2% 0 0 0 ;
+}
+
+.Heads {
+	border-radius: 999rem;
+	box-shadow: 0px 0px 1px 8px #cccccc;
+}
+
+.AllOwnedNFT {
+	padding: 2% 0 0 0;
+}
+</style>

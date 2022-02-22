@@ -62,7 +62,8 @@ export default {
     border-radius: 1rem;
     margin: 0.5rem;
     min-width: auto;
-    box-shadow:0px 0px 1px 1px #cccccc;
+    border:#111111 1px solid;
+    box-shadow: 2px 10px 10px 3px #cccccc;
 }
 .imgPart {
     margin: 1rem 0 0 0;

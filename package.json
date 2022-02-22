@@ -19,6 +19,7 @@
     "popper.js": "^1.16.1",
     "sweetalert2": "^11.4.0",
     "vue": "^3.0.0",
+    "vue-boring-avatars": "^1.1.0",
     "vue-dapp": "^0.4.7",
     "vue-router": "^4.0.0-0",
     "web3": "^1.7.0"

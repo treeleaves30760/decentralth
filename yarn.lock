@@ -13036,6 +13036,11 @@
   "resolved" "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.2.tgz"
   "version" "1.1.2"
 
+"vue-boring-avatars@^1.1.0":
+  "integrity" "sha512-eiq79Dh1E6mhRiSLPPcL2oTyJFHfQow+5p7oUJr9i/DpqyCjEX0ayEvZhie1EDKyDcVfVbmqXXBeXBQOr2UAdw=="
+  "resolved" "https://registry.npmjs.org/vue-boring-avatars/-/vue-boring-avatars-1.1.0.tgz"
+  "version" "1.1.0"
+
 "vue-dapp@^0.4.7":
   "integrity" "sha512-YRJUrP4xsPUCJFSKBa78Yy2qQMir19qrQGUBQM/e37AFpjbX46nvvroxCqA+m09M1BhuO4bPDinjvv+6zt76ag=="
   "resolved" "https://registry.npmjs.org/vue-dapp/-/vue-dapp-0.4.7.tgz"
