@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Market from '../views/Market.vue'
+import Explore from '../views/Explore.vue'
 import Profile from "../views/Profile.vue"
 import SingleNFT from "../views/SingleNFT.vue"
 import NotFound from '../views/NotFound.vue'
@@ -21,9 +21,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/market',
-    name: 'Market',
-    component: Market
+    path: '/explore',
+    name: 'Explore',
+    component: Explore
   },
   {
     path: '/profile',

@@ -15,7 +15,7 @@
       
       <div class="Links">
         <router-link to="/">Home</router-link>  |
-        <router-link to="/market">Market</router-link>  |
+        <router-link to="/explore">Explore</router-link>  |
         <router-link to="/about">About</router-link>  |
         <router-link to="/Help">Help</router-link>  |
         <router-link to="/profile">Profile</router-link>

@@ -1,6 +1,6 @@
 <template>
-    <div class="Market">
-        <h1 class="MarketName"><b>Market</b></h1>
+    <div class="Explore">
+        <h1 class="ExploreName"><b>Explore</b></h1>
         <div class="Single_NFT container">
             <div v-for="NFT in NFT_List" :key="NFT">
                 <h1>{{NFT.NFT_name}}</h1>
@@ -27,7 +27,7 @@ import { reactive, ref } from '@vue/reactivity'
 import Moapi from "../Moralis/Marolis"
 import NFTCard from "../components/NFT_card.vue"
 export default {
-    name: 'Market',
+    name: 'Explore',
     components: {
         NFTCard,
     },
@@ -73,11 +73,11 @@ export default {
 </script>
 
 <style>
-.Market {
+.Explore {
     margin-top: 3rem;
 }
 
-.MarketName {
+.ExploreName {
     font-size: 4rem;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
