@@ -1,14 +1,14 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid mt-2">
     <div class="bg-image container-fluid"></div>
     <div class="home">
       <div class="introductionPart">
         <div class="row">
-          <div class="flex introWords col-6 align-self-center">
+          <div class="flex introWords col-xs-12 col-lg-6 align-self-center">
             <b><h1>Welcome to Decentral-TH Exchange</h1></b>
             <router-link to="/market"><button class="btn btn-outline-primary btn-lg">Explore</button></router-link>
           </div>
-          <div class="flex introPic col-6">
+          <div class="flex introPic col-xs-12 col-lg-6">
             <img :src="logo" alt="Decentral-TH">
           </div>
         </div>

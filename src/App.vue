@@ -1,6 +1,6 @@
 <template>
   <nav id="nav" class="navbar sticky-top shadow-lg">
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar-header">
         <div class="row">
           <div class="Logo col-6">
@@ -10,12 +10,12 @@
         </div>
       </div>
       
-      <div class="Links">
-        <router-link to="/" class="nav-item">Home</router-link>  |
-        <router-link to="/explore" class="nav-item">Explore</router-link>  |
-        <router-link to="/about" class="nav-item">About</router-link>  |
-        <router-link to="/Help" class="nav-item">Help</router-link>  |
-        <router-link to="/profile" class="nav-item">Profile</router-link>
+      <div class="Links row">
+        <router-link to="/" class="col">Home</router-link>
+        <router-link to="/explore" class="col">Explore</router-link>
+        <router-link to="/about" class="col">About</router-link>
+        <router-link to="/Help" class="col">Help</router-link>
+        <router-link to="/profile" class="col">Profile</router-link>
       </div>
     </div>
   </nav>
@@ -65,9 +65,5 @@ export default {
 
 .logo {
   height: 5rem;
-}
-
-.Links {
-  width: 50%;
 }
 </style>
