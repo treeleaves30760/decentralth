@@ -8,57 +8,64 @@
 	<div>
 		<p v-if="error">{{ error }}</p>
 
-		<div v-if="isActivated">
-			<p>Address: {{ address }}</p>
-			<p>Eth: {{ displayEther(balance) }} ETH</p>
-			<p>Token: {{ UserBalance }}</p>
-			<p>
-				network:
-				<span class="capitalize">
-					{{ displayChainName(chainId) }}
-				</span>
-			</p>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+
+				</div>
+				<div class="col-8 text-sm-center text-lg-start">
+					<p>Address: {{ address }}</p>
+					<p>Eth: {{ displayEther(balance) }} ETH</p>
+					<p>Token: {{ UserBalance }}</p>
+					<p>
+						network:
+						<span class="capitalize">
+							{{ displayChainName(chainId) }}
+						</span>
+					</p>
+				</div>
+			</div>
 		</div>
 
-		<div class="m-4">
-			<button
-				v-if="status === 'connected'"
-				@click="isActivated ? disconnect() : open()"
-				class="btn btn-outline-danger"
-				:disabled="status === 'connecting'"
-			>
-				{{
-					status === "connected"
-						? "Disconnect"
-						: status === "connecting"
-						? "Connecting..."
-						: "Connect"
-				}}
-			</button>
-			<button
-				v-else
-				@click="isActivated ? disconnect() : open()"
-				class="btn btn-outline-primary"
-				:disabled="status === 'connecting'"
-			>
-				{{
-					status === "connected"
-						? "Disconnect"
-						: status === "connecting"
-						? "Connecting..."
-						: "Connect"
-				}}
-			</button>
-		</div>
-		<div>
-			<div>Balance {{ UserBalance }} NTtoken</div>
-			<div class="CheckInPart">
-				<button @click="CheckIn">簽到</button>
+		<div class="m-4 flex-row">
+			<div v-if="status === 'connected'">
+				<button @click="CheckIn" class="btn btn-outline-primary">簽到</button> |
+				<button
+					@click="isActivated ? disconnect() : open()"
+					class="btn btn-outline-danger"
+					:disabled="status === 'connecting'"
+				>
+					{{
+						status === "connected"
+							? "Disconnect"
+							: status === "connecting"
+							? "Connecting..."
+							: "Connect"
+					}}
+				</button>
 			</div>
+			
+			<div v-else>
+				<button
+					@click="isActivated ? disconnect() : open()"
+					class="btn btn-outline-primary flex"
+					:disabled="status === 'connecting'"
+				>
+					{{
+						status === "connected"
+							? "Disconnect"
+							: status === "connecting"
+							? "Connecting..."
+							: "Connect"
+					}}
+				</button>
+			</div>
+		</div>
+		<!-- <div>
 			<div class="AllNFT">
 				<button @click="GetAllTokenIds">測試</button>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<vdapp-board />
 </template>
