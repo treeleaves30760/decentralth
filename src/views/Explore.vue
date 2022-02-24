@@ -1,22 +1,56 @@
 <template>
-    <div class="Explore">
+    <div class="Explore container">
         <h1 class="ExploreName"><b>Explore</b></h1>
-        <div class="Single_NFT container">
-            <div v-for="NFT in NFT_List" :key="NFT">
-                <h1>{{NFT.NFT_name}}</h1>
-                <p @click="Check">Contract Address: {{ NFT.contract_address }}</p>
-                <div>
-                    <div class="Sell_List row">
-                        <NFTCard v-for="singleNFT in NFT.NFT_totalSupply" :key="singleNFT" 
-                            v-bind:Description="singleNFT.description" 
-                            v-bind:ImgURL="singleNFT.Img" 
-                            v-bind:Name="singleNFT.name" 
-                            v-bind:TokenId="singleNFT.TokenId" 
-                            v-bind:Contract_address="NFT.contract_address"
-                            v-bind:Price="singleNFT.Price"
-                        />
+        <div class="row">
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">NFT系列選擇</h5>
+                        <div class="btn-group-vertical">
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary"
+                                @click="changeSelected('All')"
+                            >
+                                顯示全部
+                            </button>
+                            <button 
+                                v-for="NFT in NFT_List" 
+                                :key="NFT" 
+                                @click="changeSelected(NFT.NFT_name)"
+                                type="button" 
+                                class="btn btn-outline-secondary"
+                            >
+                                {{ NFT.NFT_name }}
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="col">
+                <div class="Single_NFT container">
+                <div 
+                    v-for="NFT in NFT_List" 
+                    :key="NFT"
+                >
+                    <div v-if="NFT.NFT_name == Selected || Selected == 'All'">
+                        <h1>{{NFT.NFT_name}}</h1>
+                        <p @click="Check">Contract Address: {{ NFT.contract_address }}</p>
+                        <div>
+                            <div class="Sell_List row">
+                                <NFTCard v-for="singleNFT in NFT.NFT_totalSupply" :key="singleNFT" 
+                                    v-bind:Description="singleNFT.description" 
+                                    v-bind:ImgURL="singleNFT.Img" 
+                                    v-bind:Name="singleNFT.name" 
+                                    v-bind:TokenId="singleNFT.TokenId" 
+                                    v-bind:Contract_address="NFT.contract_address"
+                                    v-bind:Price="singleNFT.Price"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -34,6 +68,7 @@ export default {
     setup() {
         const IpfsPreLink = ref("https://cloudflare-ipfs.com/ipfs/")
         const NFT_List = ref([])
+        const Selected = ref("")
 
         Moapi.ContractgetAllTokenIds().then((res) => {
             return res.result
@@ -62,11 +97,19 @@ export default {
                 OneNFTContract.NFT_totalSupply.push(SingleNFT)
             })
             NFT_List.value.push(OneNFTContract)
+        }).then(() => {
+            Selected.value = NFT_List.value[0].NFT_name
         })
+
+        function changeSelected(tar) {
+            Selected.value = tar
+        }
 
         return {
             IpfsPreLink,
             NFT_List,
+            Selected,
+            changeSelected,
         }
     }
 }

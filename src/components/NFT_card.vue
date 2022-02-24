@@ -4,7 +4,7 @@
             <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
         </div>
         <hr>
-        <div class="card_body">
+        <div class="card-body">
             <div class="info">
                 <h5 class="card-title">
                     Name {{name}}
@@ -65,6 +65,7 @@ export default {
     border:#111111 1px solid;
     box-shadow: 2px 10px 10px 3px #cccccc;
 }
+
 .imgPart {
     margin: 1rem 0 0 0;
     height: 50%;
