@@ -5,7 +5,7 @@
             <div class="col-2">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">NFT系列選擇</h5>
+                        <h5 class="card-title">NFT系列</h5>
                         <div class="btn-group-vertical">
                             <button 
                                 type="button" 
@@ -39,7 +39,7 @@
                         <div>
                             <div class="Sell_List row">
                                 <NFTCard v-for="singleNFT in NFT.NFT_totalSupply" :key="singleNFT" 
-                                    v-bind:Description="singleNFT.description" 
+                                    v-bind:Description="shortenWords(singleNFT.description)" 
                                     v-bind:ImgURL="singleNFT.Img" 
                                     v-bind:Name="singleNFT.name" 
                                     v-bind:TokenId="singleNFT.TokenId" 
@@ -106,11 +106,20 @@ export default {
             Selected.value = tar
         }
 
+        function shortenWords(Words) {
+            if (Words.length < 20) {
+                return Words
+            } else {
+                return Words.substr(15) + "..."
+            }
+        }
+
         return {
             IpfsPreLink,
             NFT_List,
             Selected,
             changeSelected,
+            shortenWords,
         }
     }
 }

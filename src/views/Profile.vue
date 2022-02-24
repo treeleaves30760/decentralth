@@ -114,20 +114,26 @@
 				}
 				return L
 			}))
+			const AllNFT = ref([])
 			const searchValue = ref("")
 			const searchResult = ref(computed(() => {
-				return 
+				return AllNFT.value.filter(singleNFT => {
+					if (singleNFT.name.value.include(searchValue.value) || singleNFT.description.value.include(searchValue)) {
+						return true
+					}
+				})
 			}))
 
 			const { open } = useBoard();
-			const { status, disconnect, error } = useWallet();
+			const { status, disconnect, error, connect } = useWallet();
 			const { address, balance, chainId, isActivated } = useEthers();
+			console.log("status", status);
 
 			// Check UserAddress and Balance
-			console.log(useBoard().open)
 			if (window.ethereum) {
 				if (window.ethereum.selectedAddress) {
 					UserAddress.value = window.ethereum.selectedAddress
+					connect("metamask")
 					BuildContracts.Contracts()
 						.then((res) => {
 							contracts = res;
@@ -154,6 +160,7 @@
 							UserAddress.value = res[0];
 						})
 						.then(() => {
+							connect("metamask")
 							BuildContracts.Contracts()
 								.then((res) => {
 									contracts = res;
@@ -178,7 +185,6 @@
 							console.log(err);
 						});
 				}
-				
 			} else {
 				Swal.fire({
 					icon: "error",
@@ -206,7 +212,6 @@
 					console.log(res);
 				});
 			}
-
 			
 
 			return {
