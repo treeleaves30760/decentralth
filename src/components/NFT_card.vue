@@ -17,7 +17,7 @@
                 Price: {{price}} NTtoken
             </div>
             <hr>
-            <router-link :to="link"><button class="toBuy btn btn-outline-primary">Buy now</button></router-link>
+            <router-link :to="link"><button class="toBuy btn btn-outline-primary">{{ button_words }}</button></router-link>
         </div>
     </div>
 </template>
@@ -33,6 +33,7 @@ export default {
         "Price",
         "TokenId", 
         "Contract_address",
+        "Button_words"
     ],
     setup(props) {
         const name = toRef(props, 'Name');
@@ -41,6 +42,7 @@ export default {
         const tokenId = toRef(props, "TokenId")
         const contract_address = toRef(props, "Contract_address")
         const price = toRef(props, 'Price')
+        const button_words = toRef(props, 'Button_words')
 
         const link = "/" + contract_address.value + "/" + tokenId.value
         console.log(contract_address)
@@ -52,6 +54,7 @@ export default {
             tokenId,
             contract_address,
             link,
+            button_words
         }
     },
 }

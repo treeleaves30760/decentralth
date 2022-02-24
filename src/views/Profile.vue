@@ -8,9 +8,9 @@
 					<Avatar :size="200" :colors="colors" class="Heads"/>
 				</div>
 				<div class="col-sm-12 col-lg-8 text-sm-center text-lg-start fw-bold fs-3">
-					<p>Address: {{ shortenAddress(address) }}</p>
+					<p>Address: {{ shortenAddress(UserAddress) }}</p>
 					<p>Eth: {{ displayEther(balance) }} ETH</p>
-					<p>Token: {{ UserBalance }}</p>
+					<p>Token: {{ UserTokenBalance }}</p>
 				</div>
 			</div>
 		</div>
@@ -56,12 +56,24 @@
 			<div class="row">
 				<div class="col-sm-10 col-md-4">
 					<div class="input-group mt-3">
-						<input type="search" class="form-control" placeholder="NFT Name or Description" aria-label="NFT Name or Description" aria-describedby="button-addon2">
+						<input 
+							v-model="searchValue"
+							type="search"
+							class="form-control" 
+							placeholder="NFT Name or Description" 
+							aria-label="NFT Name or Description" 
+							aria-describedby="button-addon2"
+						>
 						<button type="button" class="btn btn-primary">
 							<i class="fas fa-search"></i>
 						</button>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+				<NFTCard 
+					Button_words="Check"
+				/>
 			</div>
 		</div>
 		</div>
@@ -73,7 +85,6 @@
 	import Moapi from "../Moralis/Marolis";
 	import BuildContracts from "../Contract/Contract";
 	import { ref } from "@vue/reactivity";
-	import Avatar from "vue-boring-avatars";
 	import {
 		useBoard,
 		useEthers,
@@ -83,15 +94,18 @@
 		shortenAddress,
 	} from "vue-dapp";
 	import { computed } from '@vue/runtime-core';
+	import Avatar from "vue-boring-avatars";
+	import NFTCard from "../components/NFT_card.vue"
 
 	export default {
 		name: "Profile",
 		components: {
 			Avatar,
+			NFTCard,
 		},
 		setup() {
 			var contracts;
-			const UserBalance = ref(0);
+			const UserTokenBalance = ref(0);
 			const UserAddress = ref("");
 			const colors = ref(computed(() => {
 				var L = []
@@ -100,40 +114,71 @@
 				}
 				return L
 			}))
+			const searchValue = ref("")
+			const searchResult = ref(computed(() => {
+				return 
+			}))
+
+			const { open } = useBoard();
+			const { status, disconnect, error } = useWallet();
+			const { address, balance, chainId, isActivated } = useEthers();
+
 			// Check UserAddress and Balance
-			console.log("Address", window.ethereum.selectedAddress)
+			console.log(useBoard().open)
 			if (window.ethereum) {
-				window.ethereum
-					.request({ method: "eth_requestAccounts" })
-					.then((res) => {
-						UserAddress.value = res[0];
-						console.log(UserAddress);
-						console.log("Metamask Checked");
-					})
-					.then(() => {
-						BuildContracts.Contracts()
-							.then((res) => {
-								contracts = res;
-								return contracts;
-							})
-							.then((contracts) => {
-								contracts.TokenContract.methods
-									.getLoginTable(UserAddress.value)
-									.call()
-									.then((res) => {
-										console.log("The login date", res);
-									});
-								contracts.TokenContract.methods
-									.balanceOf(UserAddress.value)
-									.call()
-									.then((res) => {
-										UserBalance.value = res / 10 ** 18;
-									});
-							});
-					})
-					.catch((err) => {
-						console.log(err);
-					});
+				if (window.ethereum.selectedAddress) {
+					UserAddress.value = window.ethereum.selectedAddress
+					BuildContracts.Contracts()
+						.then((res) => {
+							contracts = res;
+							return contracts;
+						})
+						.then((contracts) => {
+							contracts.TokenContract.methods
+								.getLoginTable(UserAddress.value)
+								.call()
+								.then((res) => {
+									console.log("The login date", res);
+								});
+							contracts.TokenContract.methods
+								.balanceOf(UserAddress.value)
+								.call()
+								.then((res) => {
+									UserTokenBalance.value = res / 10 ** 18;
+								});
+						});
+				} else {
+					window.ethereum
+						.request({ method: "eth_requestAccounts" })
+						.then((res) => {
+							UserAddress.value = res[0];
+						})
+						.then(() => {
+							BuildContracts.Contracts()
+								.then((res) => {
+									contracts = res;
+									return contracts;
+								})
+								.then((contracts) => {
+									contracts.TokenContract.methods
+										.getLoginTable(UserAddress.value)
+										.call()
+										.then((res) => {
+											console.log("The login date", res);
+										});
+									contracts.TokenContract.methods
+										.balanceOf(UserAddress.value)
+										.call()
+										.then((res) => {
+											UserTokenBalance.value = res / 10 ** 18;
+										});
+								});
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+				}
+				
 			} else {
 				Swal.fire({
 					icon: "error",
@@ -162,12 +207,10 @@
 				});
 			}
 
-			const { open } = useBoard();
-			const { status, disconnect, error } = useWallet();
-			const { address, balance, chainId, isActivated } = useEthers();
+			
 
 			return {
-				UserBalance,
+				UserTokenBalance,
 				UserAddress,
 				contracts,
 				CheckIn,
@@ -184,6 +227,8 @@
 				displayEther,
 				shortenAddress,
 				colors,
+				searchValue,
+				searchResult
 			};
 		},
 	};

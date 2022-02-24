@@ -45,6 +45,7 @@
                                     v-bind:TokenId="singleNFT.TokenId" 
                                     v-bind:Contract_address="NFT.contract_address"
                                     v-bind:Price="singleNFT.Price"
+                                    Button_words="Buy Now!"
                                 />
                             </div>
                         </div>
