@@ -69,7 +69,7 @@ export default {
     setup() {
         const IpfsPreLink = ref("https://cloudflare-ipfs.com/ipfs/")
         const NFT_List = ref([])
-        const Selected = ref("")
+        const Selected = ref("All")
 
         Moapi.ContractgetAllTokenIds().then((res) => {
             return res.result
@@ -98,8 +98,6 @@ export default {
                 OneNFTContract.NFT_totalSupply.push(SingleNFT)
             })
             NFT_List.value.push(OneNFTContract)
-        }).then(() => {
-            Selected.value = NFT_List.value[0].NFT_name
         })
 
         function changeSelected(tar) {
