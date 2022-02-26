@@ -1,25 +1,30 @@
 <template>
-    <div class="card d-flex col-xl-2 col-lg-3 col-md-4 col-sm-4">
-        <div class="imgPart">
-            <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
-        </div>
-        <hr>
-        <div class="card-body">
-            <div class="info">
-                <h5 class="card-title">
-                    Name {{name}}
-                </h5>
-                <p class="card-text">
-                    {{description}}
-                </p>
-            </div>
-            <div class="NFT_price">
-                Price: {{price}} NTtoken
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="card d-flex ">
+            <div class="imgPart ratio ratio-1x1">
+                <div class="container"> 
+                    <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
+                </div>
             </div>
             <hr>
-            <router-link :to="link"><button class="toBuy btn btn-outline-primary">{{ button_words }}</button></router-link>
+            <div class="card-body">
+                <div class="info">
+                    <h5 class="card-title">
+                        Name {{name}}
+                    </h5>
+                    <p class="card-text">
+                        {{description}}
+                    </p>
+                </div>
+                <div class="NFT_price">
+                    Price: {{price}} NTtoken
+                </div>
+                <hr>
+                <router-link :to="link"><button class="toBuy btn btn-outline-primary">{{ button_words }}</button></router-link>
+            </div>
         </div>
     </div>
+    
 </template>
 
 <script>
@@ -62,16 +67,15 @@ export default {
 
 <style scoped>
 .card {
-    border-radius: 1rem;
     margin: 0.5rem;
-    min-width: auto;
+    border-radius: 1rem;
     border:#111111 1px solid;
     box-shadow: 2px 10px 10px 3px #cccccc;
 }
 
 .imgPart {
     margin: 1rem 0 0 0;
-    height: 50%;
+    height: 70%;
 }
 
 .card-img-top {
@@ -82,12 +86,12 @@ export default {
 }
 
 .card_body {
-    height: 30%;
+    height: auto;
 }
 
 .NFT_img {
     align-content: center;
-    height: 60%;
+    height: 100%;
 }
 .info {
     display: block;
