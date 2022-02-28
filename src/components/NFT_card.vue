@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="">
         <div class="card d-flex ">
             <div class="imgPart ratio ratio-1x1">
                 <div class="container"> 
@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="info">
                     <h5 class="card-title">
-                        Name {{name}}
+                        {{name}}
                     </h5>
                     <p class="card-text">
                         {{description}}

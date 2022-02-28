@@ -14,32 +14,28 @@
                 </li>
             </ul>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="Single_NFT container">
-                <div 
-                    v-for="NFT in NFT_List" 
-                    :key="NFT"
-                >
-                    <div v-if="NFT.NFT_name == Selected || Selected == 'All'">
-                        <h1>{{NFT.NFT_name}}</h1>
-                        <div>
-                            <div class="Sell_List row g-2">
-                                <NFTCard v-for="singleNFT in NFT.NFT_totalSupply" :key="singleNFT" 
-                                    v-bind:Description="shortenWords(singleNFT.description)" 
-                                    v-bind:ImgURL="singleNFT.Img" 
-                                    v-bind:Name="singleNFT.name" 
-                                    v-bind:TokenId="singleNFT.TokenId" 
-                                    v-bind:Contract_address="NFT.contract_address"
-                                    v-bind:Price="singleNFT.Price"
-                                    Button_words="Buy Now!"
-                                    class="SellCard"
-                                />
-                            </div>
+        <div class="Single_NFT container">
+            <div 
+                v-for="NFT in NFT_List" 
+                :key="NFT"
+            >
+                <div v-if="NFT.NFT_name == Selected || Selected == 'All'">
+                    <h1>{{NFT.NFT_name}}</h1>
+                    <div>
+                        <div class="Sell_List row g-2">
+                            <NFTCard v-for="singleNFT in NFT.NFT_totalSupply" :key="singleNFT" 
+                                v-bind:Description="shortenWords(singleNFT.description)" 
+                                v-bind:ImgURL="singleNFT.Img" 
+                                v-bind:Name="singleNFT.name" 
+                                v-bind:TokenId="singleNFT.TokenId" 
+                                v-bind:Contract_address="NFT.contract_address"
+                                v-bind:Price="singleNFT.Price"
+                                Button_words="Buy Now!"
+                                class="SellCard col-lg-3 col-md-4 col-sm-6"
+                            />
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -84,7 +80,7 @@ export default {
                                 metadatas.image = metadatas.image.substr(7)
                             }
                             const SingleNFT = reactive({
-                                name: ref(element.name),
+                                name: ref(metadatas.name),
                                 description: ref(metadatas.description),
                                 Img: ref(IpfsPreLink.value + metadatas.image),
                                 TokenId: ref(element.token_id),

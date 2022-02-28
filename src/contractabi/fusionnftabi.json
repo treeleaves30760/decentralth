@@ -1,22 +1,6 @@
 [
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "symble",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_defaultUri",
-				"type": "string"
-			}
-		],
+		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -194,6 +178,24 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "tokenIdA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenIdB",
+				"type": "uint256"
+			}
+		],
+		"name": "fusion",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
 			}
@@ -310,6 +312,30 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "recipe",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "renounceOwnership",
 		"outputs": [],
@@ -407,6 +433,29 @@
 			}
 		],
 		"name": "setDefaultUri",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "A",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "B",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "C",
+				"type": "string"
+			}
+		],
+		"name": "setRecipe",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -581,6 +630,19 @@
 			}
 		],
 		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "withdraw",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
