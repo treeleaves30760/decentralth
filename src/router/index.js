@@ -4,6 +4,7 @@ import Explore from '../views/Explore.vue'
 import Profile from "../views/Profile.vue"
 import SingleNFT from "../views/SingleNFT.vue"
 import NotFound from '../views/NotFound.vue'
+import Lottery from '../views/Lottery'
 import Help from "../views/Help.vue"
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     path: '/help',
     name: 'Help',
     component: Help
+  },
+  {
+    path: '/lottery',
+    name: 'Lottery',
+    component: Lottery
   },
   {
     path: '/:contract_address/:tokenId',

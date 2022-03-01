@@ -66,7 +66,7 @@ export default {
                     Moapi.ContractgetAllTokenIds(element).then((res) => {
                         return res.result
                     }).then((result) => {
-                        console.log(result)
+                        // console.log(result)
                         const OneNFTContract = {
                             NFT_name: ref(""),
                             contract_address: ref(0),
@@ -86,7 +86,7 @@ export default {
                                 TokenId: ref(element.token_id),
                                 Price: 0.8,
                             })
-                            console.log(metadatas)
+                            // console.log(metadatas)
                             OneNFTContract.NFT_totalSupply.push(SingleNFT)
                         })
                         NFT_List.value.push(OneNFTContract)

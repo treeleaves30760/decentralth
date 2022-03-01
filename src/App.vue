@@ -13,6 +13,7 @@
       <div class="Links row">
         <router-link to="/" class="col">Home</router-link>
         <router-link to="/explore" class="col">Explore</router-link>
+        <router-link to="/lottery" class="col">Lottery</router-link>
         <router-link to="/about" class="col">About</router-link>
         <router-link to="/Help" class="col">Help</router-link>
         <router-link to="/profile" class="col">Profile</router-link>
