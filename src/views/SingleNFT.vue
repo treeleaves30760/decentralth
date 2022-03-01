@@ -46,7 +46,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { ref, reactive } from '@vue/reactivity'
 import { useWallet, useEthers } from 'vue-dapp'
 import Swal from 'sweetalert2'
-import BuildContracts from "../Contract/Contract"
 import Moapi from "../Moralis/Marolis"
 
 export default {
@@ -103,7 +102,7 @@ export default {
             if (window.ethereum.selectedAddress) {
                 UserAddress.value = window.ethereum.selectedAddress
                 connect("metamask")
-                BuildContracts.Contracts()
+                Moapi.BuildContracts(route.params.contract_address)
                     .then((res) => {
                         contracts = res;
                         return contracts;
@@ -130,7 +129,7 @@ export default {
                     })
                     .then(() => {
                         connect("metamask")
-                        BuildContracts.Contracts()
+                        Moapi.BuildContracts(route.params.contract_address)
                             .then((res) => {
                                 contracts = res;
                                 return contracts;

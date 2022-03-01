@@ -6,7 +6,7 @@
         <div class="row">
           <div class="flex introWords col-xs-12 col-lg-6 align-self-center">
             <b><h1>Welcome to Decentral-TH Exchange</h1></b>
-            <router-link to="/market"><button class="btn btn-outline-primary btn-lg">Explore</button></router-link>
+            <router-link to="/explore"><button class="btn btn-outline-primary btn-lg">Explore</button></router-link>
           </div>
           <div class="flex introPic col-xs-12 col-lg-6">
             <img :src="logo" alt="Decentral-TH">

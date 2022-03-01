@@ -104,7 +104,6 @@
 <script>
 	import Swal from "sweetalert2";
 	import Moapi from "../Moralis/Marolis";
-	import BuildContracts from "../Contract/Contract";
 	import { ref, reactive } from "@vue/reactivity";
 	import {
 		useBoard,
@@ -156,7 +155,7 @@
 				if (window.ethereum.selectedAddress) {
 					UserAddress.value = window.ethereum.selectedAddress
 					connect("metamask")
-					BuildContracts.Contracts()
+					Moapi.BuildContracts("NONE")
 						.then((res) => {
 							contracts = res;
 							return contracts;
@@ -183,7 +182,7 @@
 						})
 						.then(() => {
 							connect("metamask")
-							BuildContracts.Contracts()
+							Moapi.BuildContracts("NONE")
 								.then((res) => {
 									contracts = res;
 									return contracts;
@@ -227,6 +226,7 @@
 						Moapi.getNFTFromAddr(window.ethereum.selectedAddress, element).then((res) => {
 							return res.result
 						}).then((result) => {
+							// console.log("Try to get the ALL NFT")
 							const OneNFTContract = {
 								NFT_name: ref(result[0].name),
 								contract_address: ref(result[0].token_address),
