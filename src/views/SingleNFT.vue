@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-5">
+            <div class="col-lg-5 col-sm-12">
                 <div class="card leftcard">
                     <img 
                         class="cardImg"

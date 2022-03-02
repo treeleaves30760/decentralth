@@ -215,8 +215,6 @@
 				});
 			}
 
-			
-
 			Moapi.getTotalContractNumber().then((res) => {
 				for (let i = 0; i < res; i++) {
 					NFTContractAddressList.value.push(Moapi.getWhiteList(i))

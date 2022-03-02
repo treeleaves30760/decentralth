@@ -6,6 +6,7 @@ const storeAbi = require('../contractabi/storeabi.json');
 const NFTAbi = require("../contractabi/nftabi.json")
 const tokenAbi = require("../contractabi/tokenabi.json")
 const AuctionAbi = require("../contractabi/auctionabi.json")
+const address = window.ethereum.selectedAddress
 
 const serverUrl = "https://q35jbv5jagyw.usemoralis.com:2053/server";
 const appId = "1kfWR1GvtpZwlXDhJ3sG1Fv9twJzjZ3zcn2DkBjq";
@@ -48,9 +49,9 @@ async function getNFTFromAddr(userAddr, contractAddr) {
 	for(let i = 0 ; i < NFTs.total ; i = i + 1){
         NFTs.result[i].metadata = await axios.get(NFTs.result[i].token_uri);
         NFTs.result[i].metadata = JSON.stringify(NFTs.result[i].metadata.data)
-        console.log(NFTs.result[i].metadata)
+        // console.log(NFTs.result[i].metadata)
     }
-    console.log("getNFTFromAddr", NFTs)
+    // console.log("getNFTFromAddr", NFTs)
     return NFTs
 }
 
@@ -62,24 +63,34 @@ async function getTotalContractNumber() {
     return await auctionContract.methods.getWhiteListLength().call();
 }
 
-async function approveToken(num, address) {
-    await tokenContract.methods.approve(address, web3.utils.toBN(num * 10 ** 18)).send({ from: address, gas: 3500000 });
+async function approveToken(num, contractAddress) {
+    await tokenContract.methods.approve(contractAddress, web3.utils.toBN(num * 10 ** 18)).send({ from: window.ethereum.selectedAddress, gas: 3500000 });
 }
 
-async function getNFT(address) {
-    return await storeContract.methods.getNFT(address).send({ from: address, gas: 3500000 });
+async function getNFT(contractAddress) { // Lottery get, use after approve token
+    console.log(window.ethereum.selectedAddress)
+    await storeContract.methods.getNFT(contractAddress).send({ from: window.ethereum.selectedAddress, gas: 3500000 });
+    let NFTContract = new web3.eth.Contract(NFTAbi, contractAddress);
+    let userNum = await NFTContract.methods.balanceOf(address).call();
+    let Index = await NFTContract.methods.tokenOfOwnerByIndex(address, userNum - 1).call();
+    let ResUri = await NFTContract.methods.tokenURI(Index).call();
+    return {ResUri, Index}
 }
 
-async function getNFTPrice(address) {
-    return await storeContract.methods.getPrice(address).call();
+async function getNFTPrice(contractAddress) {
+    return await storeContract.methods.getPrice(contractAddress).call();
 }
 
-async function getNFTUriLength(address) {
-    return await storeContract.methods.getNFTUriLength(address).call();
+async function getNFTUriLength(contractAddress) {
+    return await storeContract.methods.getNFTUriLength(contractAddress).call();
 }
 
-async function getNFTUri(address, id) {
-    return await storeContract.methods.getNFTUri(address, id).call();
+async function getNFTUri(contractAddress, id) {
+    return await storeContract.methods.getNFTUri(contractAddress, id).call();
+}
+
+async function getNFTMetadataFromCid(Cid) {
+    return await axios.get("https://cloudflare-ipfs.com/ipfs/" + Cid);
 }
 
 module.exports = {
@@ -93,4 +104,6 @@ module.exports = {
     getNFTPrice,
     getNFTUri,
     getNFTUriLength,
+    storeAddr,
+    getNFTMetadataFromCid,
 };
