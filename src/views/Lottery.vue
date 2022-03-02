@@ -56,8 +56,8 @@ export default {
         const TimeValue = ref(0)
         const Getable = ref(0)
         const ButtonClass = reactive({
-            'btn-outline-info': 0,
-            'btn-info': 1,
+            'btn-outline-warning': 0,
+            'btn-warning': 1,
             'disabled': !Getable.value,
         })
 
@@ -65,12 +65,12 @@ export default {
             if (Getable.value) {
                 if (TimeValue.value == 0) {
                     TimeValue.value = 1
-                    ButtonClass['btn-info'] = 1
-                    ButtonClass['btn-outline-info'] = 0
+                    ButtonClass['btn-warning'] = 1
+                    ButtonClass['btn-outline-warning'] = 0
                 } else {
                     TimeValue.value = 0
-                    ButtonClass['btn-info'] = 0
-                    ButtonClass['btn-outline-info'] = 1
+                    ButtonClass['btn-warning'] = 0
+                    ButtonClass['btn-outline-warning'] = 1
                 }
             }
         }, 250)
@@ -112,10 +112,7 @@ export default {
                 })
             })
         })
-            
-
         
-
         function changeSelected(tar) {
             Selected.value = tar
         }
