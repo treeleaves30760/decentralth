@@ -135,12 +135,12 @@
 				}
 				return L
 			}))
+			const LevelWordList = (["G", "F", "E", "D", "C", "B", "A", "S", "SS"])
 			const AllNFT = ref([])
 			const searchValue = ref("")
 			const searchResult = ref(computed(() => {
 				return AllNFT.value.filter((singleNFT) => {
-					console.log("Filter", singleNFT.name)
-					return (singleNFT.name.includes(searchValue.value) || singleNFT.description.includes(searchValue.value))
+					return (singleNFT.name.includes(searchValue.value) || singleNFT.description.includes(searchValue.value) || LevelWordList[singleNFT.Level] == searchValue.value)
 				})
 			}))
 			const IpfsPreLink = ref("https://cloudflare-ipfs.com/ipfs/")
@@ -231,6 +231,7 @@
 								contract_address: ref(result[0].token_address),
 								NFT_totalSupply: reactive([])
 							}
+							let i = 0;
 							result.forEach(element => {
 								const metadatas = JSON.parse(element.metadata)
 								if (metadatas.image.substring(0, 7) === "ipfs://") {
@@ -242,7 +243,7 @@
 									Img: ref(IpfsPreLink.value + metadatas.image),
 									TokenId: ref(element.token_id),
 									contract_address: ref(result[0].token_address),
-									Level: -1,
+									Level: i,
 									Price: 0.8,
 								})
 								if (metadatas.attributes) {
@@ -250,6 +251,12 @@
 										SingleNFT[objects.trait_type] = objects.value
 									})
 								}
+
+								i = i + 1;
+								if (i == 8) {
+									i = 0
+								}
+
 								AllNFT.value.push(SingleNFT)
 								OneNFTContract.NFT_totalSupply.push(SingleNFT)
 							})

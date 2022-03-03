@@ -87,7 +87,7 @@ export default {
                                 description: ref(metadatas.description),
                                 Img: ref(IpfsPreLink.value + metadatas.image),
                                 TokenId: ref(element.token_id),
-                                Level: -1,
+                                Level: 0,
                                 Price: 0.8,
                             })
                             // console.log("SingleNFT",SingleNFT)

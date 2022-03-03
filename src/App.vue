@@ -58,6 +58,7 @@ export default {
   background: #dac8fd;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #e0d0fd, #af94fb,#c0c0fd, #e0d0fd);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #e0d0fd, #af94fb,#c0c0fd, #e0d0fd); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  z-index: 1000;
 }
 
 .Logo {
