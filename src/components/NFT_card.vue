@@ -1,6 +1,6 @@
 <template>
-    <div class="">
-        <div class="card d-flex ">
+    <div>
+        <div class="card d-flex " :class="cardShadow">
             <div class="imgPart ratio ratio-1x1">
                 <div class="container"> 
                     <img v-bind:src="imgURL" v-bind:alt="name" class="card-img-top">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { toRef } from '@vue/reactivity';
+import { reactive, toRef } from '@vue/reactivity';
 export default {
     name: "NFT_card",
     props: [
@@ -38,7 +38,8 @@ export default {
         "Price",
         "TokenId", 
         "Contract_address",
-        "Button_words"
+        "Button_words",
+        "Level",
     ],
     setup(props) {
         const name = toRef(props, 'Name');
@@ -48,9 +49,22 @@ export default {
         const contract_address = toRef(props, "Contract_address")
         const price = toRef(props, 'Price')
         const button_words = toRef(props, 'Button_words')
+        const level = toRef(props, "Level")
 
         const link = "/" + contract_address.value + "/" + tokenId.value
-        console.log(contract_address)
+
+        const cardShadow = reactive({
+            defaultLevel: level.value == -1,
+            GLevel: level.value == 0,
+            FLevel: level.value == 1,
+            ELevel: level.value == 2,
+            DLevel: level.value == 3,
+            CLevel: level.value == 4,
+            BLevel: level.value == 5,
+            ALevel: level.value == 6,
+            SLevel: level.value == 7,
+        })
+        // console.log(contract_address)
         return {
             name,
             description,
@@ -59,18 +73,23 @@ export default {
             tokenId,
             contract_address,
             link,
-            button_words
+            button_words,
+            level,
+            cardShadow
         }
     },
 }
 </script>
 
 <style scoped>
+:root {
+    --size-of-shadow: 1.25rem
+}
+
 .card {
     margin: 0.5rem;
     border-radius: 1rem;
     border:#111111 1px solid;
-    box-shadow: 2px 10px 10px 3px #cccccc;
 }
 
 .imgPart {
@@ -95,6 +114,42 @@ export default {
 }
 .info {
     display: block;
+}
+
+.defaultLevel {
+    box-shadow: 0 0 1.5rem #cccccc;
+}
+
+.GLevel {
+    box-shadow: 0 0 1.5rem #333333;
+}
+
+.FLevel {
+    box-shadow: 0 0 1.5rem #360683;
+}
+
+.ELevel {
+    box-shadow: 0 0 1.5rem #0e6aa7;
+}
+
+.DLevel {
+    box-shadow: 0 0 1.5rem #087704;
+}
+
+.CLevel {
+    box-shadow: 0 0 1.5rem #0fda2a;
+}
+
+.BLevel {
+    box-shadow: 0 0 1.5rem #e95e0e;
+}
+
+.ALevel {
+    box-shadow: 0 0 1.5rem #ef8b08;
+}
+
+.SLevel {
+    box-shadow: 0 0 1.5rem #fffb04;
 }
 
 </style>

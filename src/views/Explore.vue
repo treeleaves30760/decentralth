@@ -30,7 +30,8 @@
                                 v-bind:TokenId="singleNFT.TokenId" 
                                 v-bind:Contract_address="NFT.contract_address"
                                 v-bind:Price="singleNFT.Price"
-                                Button_words="Buy Now!"
+                                v-bind:Level="singleNFT.Level"
+                                Button_words="Check Now!!"
                                 class="SellCard col-lg-3 col-md-4 col-sm-6"
                             />
                         </div>
@@ -76,6 +77,8 @@ export default {
                         OneNFTContract.contract_address.value = result[0].token_address
                         result.forEach(element => {
                             const metadatas = JSON.parse(element.metadata)
+                            // console.log("Elements", element)
+                            // console.log("Metadatas", metadatas)
                             if (metadatas.image.substring(0, 7) === "ipfs://") {
                                 metadatas.image = metadatas.image.substr(7)
                             }
@@ -84,9 +87,16 @@ export default {
                                 description: ref(metadatas.description),
                                 Img: ref(IpfsPreLink.value + metadatas.image),
                                 TokenId: ref(element.token_id),
+                                Level: -1,
                                 Price: 0.8,
                             })
-                            // console.log(metadatas)
+                            // console.log("SingleNFT",SingleNFT)
+                            if (metadatas.attributes) {
+                                metadatas.attributes.forEach((objects) => {
+                                    SingleNFT[objects.trait_type] = objects.value
+                                })
+                            }
+                            console.log("SingleNFT",SingleNFT)
                             OneNFTContract.NFT_totalSupply.push(SingleNFT)
                         })
                         NFT_List.value.push(OneNFTContract)
