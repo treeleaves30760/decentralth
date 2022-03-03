@@ -92,6 +92,7 @@
 					v-bind:TokenId="singleNFT.TokenId" 
 					v-bind:Contract_address="singleNFT.contract_address"
 					v-bind:Price="singleNFT.Price"
+					v-bind:Level="singleNFT.Level"
 					Button_words="Check"
 					class="col-lg-3 col-md-4 col-sm-6"
 				/>
@@ -241,8 +242,14 @@
 									Img: ref(IpfsPreLink.value + metadatas.image),
 									TokenId: ref(element.token_id),
 									contract_address: ref(result[0].token_address),
+									Level: -1,
 									Price: 0.8,
 								})
+								if (metadatas.attributes) {
+									metadatas.attributes.forEach((objects) => {
+										SingleNFT[objects.trait_type] = objects.value
+									})
+								}
 								AllNFT.value.push(SingleNFT)
 								OneNFTContract.NFT_totalSupply.push(SingleNFT)
 							})

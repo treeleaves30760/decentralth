@@ -54,7 +54,7 @@ export default {
         const link = "/" + contract_address.value + "/" + tokenId.value
 
         const cardShadow = reactive({
-            defaultLevel: level.value == -1,
+            defaultLevel: level.value == -1 || !(level.value),
             GLevel: level.value == 0,
             FLevel: level.value == 1,
             ELevel: level.value == 2,
