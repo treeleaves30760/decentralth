@@ -93,6 +93,10 @@ async function getNFTMetadataFromCid(Cid) {
     return await axios.get("https://cloudflare-ipfs.com/ipfs/" + Cid);
 }
 
+async function getNFTMetadataFromTokenUri(Uri) {
+    return await axios.get(Uri);
+}
+
 module.exports = {
 	ContractgetAllTokenIds,
     getNFTFromAddr,
@@ -106,4 +110,5 @@ module.exports = {
     getNFTUriLength,
     storeAddr,
     getNFTMetadataFromCid,
+    getNFTMetadataFromTokenUri,
 };

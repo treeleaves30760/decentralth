@@ -17,11 +17,13 @@
                         {{description}}
                     </p>
                 </div>
-                <div class="NFT_price">
+                <!-- <div class="NFT_price">
                     Price: {{price}} NTtoken
-                </div>
+                </div> -->
                 <hr>
-                <router-link :to="link"><button class="toBuy btn btn-outline-primary">{{ button_words }}</button></router-link>
+                <div v-if="button_words">
+                    <router-link :to="link"><button class="toBuy btn btn-outline-primary">{{ button_words }}</button></router-link>
+                </div>
             </div>
         </div>
     </div>

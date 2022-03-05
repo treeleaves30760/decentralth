@@ -6,6 +6,7 @@ import SingleNFT from "../views/SingleNFT.vue"
 import NotFound from '../views/NotFound.vue'
 import Lottery from '../views/Lottery'
 import Help from "../views/Help.vue"
+import Fusion from "../views/Fusion.vue"
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
     path: '/lottery',
     name: 'Lottery',
     component: Lottery
+  },
+  {
+    path: '/fusion',
+    name: 'Fusion',
+    component: Fusion
   },
   {
     path: '/:contract_address/:tokenId',

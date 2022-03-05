@@ -14,6 +14,7 @@
         <router-link to="/" class="col">Home</router-link>
         <router-link to="/explore" class="col">Explore</router-link>
         <router-link to="/lottery" class="col">Lottery</router-link>
+        <router-link to="/fusion" class="col">Fusion</router-link>
         <router-link to="/about" class="col">About</router-link>
         <router-link to="/Help" class="col">Help</router-link>
         <router-link to="/profile" class="col">Profile</router-link>
@@ -48,6 +49,7 @@ export default {
   font-weight: bold;
   font-size: 1.3rem;
   color: #111111;
+  text-decoration-line: unset;
 }
 
 #nav a.router-link-exact-active {

@@ -15,89 +15,76 @@
 			</div>
 		</div>
 
-		<div class="m-4 flex-row">
-			<div v-if="status === 'connected'">
-				<button @click="CheckIn" class="btn btn-outline-primary">簽到</button> |
-				<button
-					@click="isActivated ? disconnect() : open()"
-					class="btn btn-outline-danger"
-					:disabled="status === 'connecting'"
-				>
-					{{
-						status === "connected"
-							? "Disconnect"
-							: status === "connecting"
-							? "Connecting..."
-							: "Connect"
-					}}
-				</button>
-			</div>
-			
-			<div v-else>
-				<button
-					@click="isActivated ? disconnect() : open()"
-					class="btn btn-outline-primary flex"
-					:disabled="status === 'connecting'"
-				>
-					{{
-						status === "connected"
-							? "Disconnect"
-							: status === "connecting"
-							? "Connecting..."
-							: "Connect"
-					}}
-				</button>
-			</div>
-		</div>
-		<div class="position-relative">
-			<hr class="position-absolute top-50 start-50 translate-middle" style="width: 80%;">
-		</div>
-		<div class="AllOwnedNFT container">
-			<div class="row mb-4">
-				<div class="col-sm-10 col-md-4">
-					<div class="input-group mt-3">
-						<input 
-							v-model="searchValue"
-							type="search"
-							class="form-control" 
-							placeholder="NFT Name or Description" 
-							aria-label="NFT Name or Description" 
-							aria-describedby="button-addon2"
-						>
-						<button type="button" class="btn btn-primary" @click="ShowSearch()">
-							<i class="fas fa-search"></i>
-						</button>
-					</div>
+			<div class="m-4 flex-row">
+				<div v-if="status === 'connected'">
+					<button @click="CheckIn" class="btn btn-outline-primary">簽到</button> |
+					<button
+						@click="isActivated ? disconnect() : open()"
+						class="btn btn-outline-danger"
+						:disabled="status === 'connecting'"
+					>
+						{{
+							status === "connected"
+								? "Disconnect"
+								: status === "connecting"
+								? "Connecting..."
+								: "Connect"
+						}}
+					</button>
+				</div>
+				
+				<div v-else>
+					<button
+						@click="isActivated ? disconnect() : open()"
+						class="btn btn-outline-primary flex"
+						:disabled="status === 'connecting'"
+					>
+						{{
+							status === "connected"
+								? "Disconnect"
+								: status === "connecting"
+								? "Connecting..."
+								: "Connect"
+						}}
+					</button>
 				</div>
 			</div>
-			<!-- <div class="row">
-				<NFTCard
-					v-for="singleNFT in AllNFT" :key="singleNFT"
-					v-bind:Description="shortenWords(singleNFT.description)" 
-					v-bind:ImgURL="singleNFT.Img" 
-					v-bind:Name="singleNFT.name" 
-					v-bind:TokenId="singleNFT.TokenId" 
-					v-bind:Contract_address="singleNFT.contract_address"
-					v-bind:Price="singleNFT.Price"
-					Button_words="Check"
-					class="col-lg-3 col-md-4 col-sm-6"
-				/>
-			</div> -->
-			<div class="row">
-				<NFTCard
-					v-for="singleNFT in searchResult" :key="singleNFT"
-					v-bind:Description="shortenWords(singleNFT.description)" 
-					v-bind:ImgURL="singleNFT.Img" 
-					v-bind:Name="singleNFT.name" 
-					v-bind:TokenId="singleNFT.TokenId" 
-					v-bind:Contract_address="singleNFT.contract_address"
-					v-bind:Price="singleNFT.Price"
-					v-bind:Level="singleNFT.Level"
-					Button_words="Check"
-					class="col-lg-3 col-md-4 col-sm-6"
-				/>
+			<div class="position-relative">
+				<hr class="position-absolute top-50 start-50 translate-middle" style="width: 80%;">
 			</div>
-		</div>
+			<div class="AllOwnedNFT container">
+				<div class="row mb-4">
+					<div class="col-sm-10 col-md-4">
+						<div class="input-group mt-3">
+							<input 
+								v-model="searchValue"
+								type="search"
+								class="form-control" 
+								placeholder="NFT Name or Description" 
+								aria-label="NFT Name or Description" 
+								aria-describedby="button-addon2"
+							>
+							<button type="button" class="btn btn-primary" @click="ShowSearch()">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<NFTCard
+						v-for="singleNFT in searchResult" :key="singleNFT"
+						v-bind:Description="shortenWords(singleNFT.description)" 
+						v-bind:ImgURL="singleNFT.Img" 
+						v-bind:Name="singleNFT.name" 
+						v-bind:TokenId="singleNFT.TokenId" 
+						v-bind:Contract_address="singleNFT.contract_address"
+						v-bind:Price="singleNFT.Price"
+						v-bind:Level="singleNFT.Level"
+						Button_words="Check"
+						class="col-lg-3 col-md-4 col-sm-6"
+					/>
+				</div>
+			</div>
 		</div>
 	<vdapp-board />
 </template>

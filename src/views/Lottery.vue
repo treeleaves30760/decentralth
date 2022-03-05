@@ -144,7 +144,7 @@ export default {
                     Moapi.ContractgetAllTokenIds(element).then((res) => {
                         return res.result
                     }).then((result) => {
-                        // console.log(result)
+                        console.log("result", result)
                         const OneNFTContract = {
                             NFT_name: ref(""),
                             contract_address: ref(0),
@@ -153,19 +153,39 @@ export default {
                         OneNFTContract.NFT_name.value = result[0].name
                         OneNFTContract.contract_address.value = result[0].token_address
                         result.forEach(element => {
-                            const metadatas = JSON.parse(element.metadata)
-                            if (metadatas.image.substring(0, 7) === "ipfs://") {
-                                metadatas.image = metadatas.image.substr(7)
+                            if (element.metadata) {
+                                const metadatas = JSON.parse(element.metadata)
+                                console.log("metadates", metadatas)
+                                if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                    metadatas.image = metadatas.image.substr(7)
+                                }
+                                const SingleNFT = reactive({
+                                    name: ref(metadatas.name),
+                                    description: ref(metadatas.description),
+                                    Img: ref(IpfsPreLink.value + metadatas.image),
+                                    TokenId: ref(element.token_id),
+                                    Price: 0.8,
+                                })
+                                // console.log(metadatas)
+                                OneNFTContract.NFT_totalSupply.push(SingleNFT)
+                            } else {
+                                Moapi.getNFTMetadataFromTokenUri(element.token_uri).then((metadatas) => {
+                                    metadatas = JSON.parse(metadatas)
+                                    console.log("metadates", metadatas)
+                                    if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                        metadatas.image = metadatas.image.substr(7)
+                                    }
+                                    const SingleNFT = reactive({
+                                        name: ref(metadatas.name),
+                                        description: ref(metadatas.description),
+                                        Img: ref(IpfsPreLink.value + metadatas.image),
+                                        TokenId: ref(element.token_id),
+                                        Price: 0.8,
+                                    })
+                                    // console.log(metadatas)
+                                    OneNFTContract.NFT_totalSupply.push(SingleNFT)
+                                })
                             }
-                            const SingleNFT = reactive({
-                                name: ref(metadatas.name),
-                                description: ref(metadatas.description),
-                                Img: ref(IpfsPreLink.value + metadatas.image),
-                                TokenId: ref(element.token_id),
-                                Price: 0.8,
-                            })
-                            // console.log(metadatas)
-                            OneNFTContract.NFT_totalSupply.push(SingleNFT)
                         })
                         NFT_List.value.push(OneNFTContract)
                     })
