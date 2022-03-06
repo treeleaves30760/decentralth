@@ -106,6 +106,7 @@ export default {
         const IpfsPreLink = ref("https://cloudflare-ipfs.com/ipfs/")
         const NFTContractAddressList = ref([])
         const NFT_List = ref([])
+        const FusionAddress = "0xd9d371baeB9D24a0D9a162bBbd13bb7Ab13472e1".toLowerCase();
 
         const { open } = useBoard();
         const { status, disconnect, error, connect } = useWallet();
@@ -156,7 +157,7 @@ export default {
                             });
                     })
                     .catch((err) => {
-                        console.log(err);
+                        console.log("Connect error:", err);
                     });
             }
         } else {
@@ -177,43 +178,49 @@ export default {
                     Moapi.getNFTFromAddr(window.ethereum.selectedAddress, element).then((res) => {
                         return res.result
                     }).then((result) => {
-                        // console.log("Try to get the ALL NFT")
-                        const OneNFTContract = {
-                            NFT_name: ref(result[0].name),
-                            contract_address: ref(result[0].token_address),
-                            NFT_totalSupply: reactive([])
-                        }
-                        let i = 0;
-                        result.forEach(element => {
-                            const metadatas = JSON.parse(element.metadata)
-                            if (metadatas.image.substring(0, 7) === "ipfs://") {
-                                metadatas.image = metadatas.image.substr(7)
-                            }
-                            const SingleNFT = reactive({
-                                name: ref(metadatas.name),
-                                description: ref(metadatas.description),
-                                Img: ref(IpfsPreLink.value + metadatas.image),
-                                TokenId: ref(element.token_id),
+                        if (result[0].token_address == FusionAddress) {
+                            const OneNFTContract = {
+                                NFT_name: ref(result[0].name),
                                 contract_address: ref(result[0].token_address),
-                                Level: i,
-                                Price: 0.8,
-                            })
-                            if (metadatas.attributes) {
-                                metadatas.attributes.forEach((objects) => {
-                                    SingleNFT[objects.trait_type] = objects.value
+                                NFT_totalSupply: reactive([])
+                            }
+                            let i = 0;
+                            result.forEach(element => {
+                                const metadatas = JSON.parse(element.metadata)
+                                if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                    metadatas.image = metadatas.image.substr(7)
+                                }
+                                let Cid = element.token_uri.split("/")
+                                Cid = Cid[Cid.length - 1]
+                                const SingleNFT = reactive({
+                                    name: ref(metadatas.name),
+                                    description: ref(metadatas.description),
+                                    Img: ref(IpfsPreLink.value + metadatas.image),
+                                    TokenId: ref(element.token_id),
+                                    contract_address: ref(result[0].token_address),
+                                    Level: i,
+                                    cid: ref(Cid),
+                                    Price: 0.8,
                                 })
-                            }
+                                if (metadatas.attributes) {
+                                    metadatas.attributes.forEach((objects) => {
+                                        SingleNFT[objects.trait_type] = objects.value
+                                    })
+                                }
 
-                            i = i + 1;
-                            if (i == 8) {
-                                i = 0
-                            }
+                                i = i + 1;
+                                if (i == 8) {
+                                    i = 0
+                                }
 
-                            AllNFT.value.push(SingleNFT)
-                            OneNFTContract.NFT_totalSupply.push(SingleNFT)
-                        })
-                        console.log("Single NFT", OneNFTContract)
-                        NFT_List.value.push(OneNFTContract)
+                                AllNFT.value.push(SingleNFT)
+                                OneNFTContract.NFT_totalSupply.push(SingleNFT)
+                            })
+                            // console.log("Single NFT", OneNFTContract)
+                            NFT_List.value.push(OneNFTContract)
+                        } else {
+                            // console.log(result[0].token_address);
+                        }
                     })
                 })
             })
@@ -222,9 +229,9 @@ export default {
         // Function
 
         function GetAllTokenIds() {
-            Moapi.ContractgetAllTokenIds().then((res) => {
-                console.log(res);
-            });
+            // Moapi.ContractgetAllTokenIds().then((res) => {
+            //     // console.log(res);
+            // });
         }
 
         function shortenWords(Words) {
@@ -243,12 +250,12 @@ export default {
 
         function ChangeChooseNFTTo1() {
             ChooseNFT.value = 1;
-            console.log("Change to 1");
+            // console.log("Change to 1");
         }
 
         function ChangeChooseNFTTo2() {
             ChooseNFT.value = 2;
-            console.log("Change to 2");
+            // console.log("Change to 2");
         }
 
         function UpdateChooseNFTTokenId(GetNFT) {
@@ -260,7 +267,7 @@ export default {
                     })
                 } else {
                     NFT1.value = GetNFT
-                    console.log("Change NFT1 to ", NFT1.value)
+                    // console.log("Change NFT1 to ", NFT1.value)
                 }
             } else if (ChooseNFT.value == 2) {
                 if (NFT1.value == GetNFT) {
@@ -270,16 +277,47 @@ export default {
                     })
                 } else {
                     NFT2.value = GetNFT
-                    console.log("Change NFT2 to ", NFT2.value)
+                    // console.log("Change NFT2 to ", NFT2.value)
                 }
             }
         }
 
         function CheckFusionNFT() {
-            Swal.fire({
-                icon: "info",
-                title: NFT1.value + " " + NFT2.value
+            // console.log("NFTs", NFT1, NFT2)
+            Moapi.getRecipe(NFT1.value.cid, NFT2.value.cid).then((res) => {
+                const metadatas = JSON.parse(res).data
+                // console.log("metadatas", metadatas)
+                if (metadatas.image.substring(0, 7) === "ipfs://") {
+                    metadatas.image = metadatas.image.substr(7)
+                }
+                Swal.fire({
+                    icon: "info",
+                    title: metadatas.name,
+                    imageUrl: "https://cloudflare-ipfs.com/ipfs/" + metadatas.image,
+                    imageHeight: 100,
+                    confirmButtonText: "Fusion!",
+                    cancelButtonText: 'Back',
+                    showCancelButton: true,
+                    showCloseButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Moapi.fusion(NFT1.value.TokenId, NFT2.value.TokenId).then(() => {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success!" 
+                            })
+                        }).catch((e) => {
+                            console.log("Fusion Error", e)
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: e, 
+                            })
+                        })
+                    }
+                })
             })
+            
         }
 
         return {

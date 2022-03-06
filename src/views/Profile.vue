@@ -191,7 +191,7 @@
 								});
 						})
 						.catch((err) => {
-							console.log(err);
+							console.log("Connect error", err);
 						});
 				}
 			} else {
@@ -240,7 +240,7 @@
 												SingleNFT[objects.trait_type] = objects.value
 											})
 										}
-										console.log("SingleNFT",SingleNFT)
+										// console.log("SingleNFT",SingleNFT)
 										AllNFT.value.push(SingleNFT)
 										OneNFTContract.NFT_totalSupply.push(SingleNFT)
 									})
@@ -262,7 +262,7 @@
 											SingleNFT[objects.trait_type] = objects.value
 										})
 									}
-									console.log("SingleNFT",SingleNFT)
+									// console.log("SingleNFT",SingleNFT)
 									AllNFT.value.push(SingleNFT)
 									OneNFTContract.NFT_totalSupply.push(SingleNFT)
 								}
@@ -272,7 +272,7 @@
 									i = 0
 								}
 							})
-							console.log("Single NFT", OneNFTContract)
+							// console.log("Single NFT", OneNFTContract)
 							NFT_List.value.push(OneNFTContract)
 						})
 					})
@@ -285,10 +285,10 @@
 					.Login()
 					.send({ from: UserAddress.value })
 					.then((res) => {
-						console.log(res);
+						console.log("Success Check In", res);
 					})
 					.catch((err) => {
-						console.log(err);
+						console.log("Fail Check In", err);
 					});
 			}
 

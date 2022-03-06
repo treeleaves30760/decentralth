@@ -214,6 +214,30 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "A",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "B",
+				"type": "string"
+			}
+		],
+		"name": "getRecipe",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_addr",
 				"type": "address"
