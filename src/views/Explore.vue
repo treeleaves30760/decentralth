@@ -76,28 +76,50 @@ export default {
                         OneNFTContract.NFT_name.value = result[0].name
                         OneNFTContract.contract_address.value = result[0].token_address
                         result.forEach(element => {
-                            const metadatas = JSON.parse(element.metadata)
-                            // console.log("Elements", element)
-                            // console.log("Metadatas", metadatas)
-                            if (metadatas.image.substring(0, 7) === "ipfs://") {
-                                metadatas.image = metadatas.image.substr(7)
-                            }
-                            const SingleNFT = reactive({
-                                name: ref(metadatas.name),
-                                description: ref(metadatas.description),
-                                Img: ref(IpfsPreLink.value + metadatas.image),
-                                TokenId: ref(element.token_id),
-                                Level: 0,
-                                Price: 0.8,
-                            })
-                            // console.log("SingleNFT",SingleNFT)
-                            if (metadatas.attributes) {
-                                metadatas.attributes.forEach((objects) => {
-                                    SingleNFT[objects.trait_type] = objects.value
+                            if (!element.metadata) {
+                                Moapi.getNFTMetadataFromTokenUri(element.TokenId).then((metadataReturn) => {
+                                    element.metadata = metadataReturn
+                                    const metadatas = JSON.parse(element.metadata)
+                                    if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                        metadatas.image = metadatas.image.substr(7)
+                                    }
+                                    const SingleNFT = reactive({
+                                        name: ref(metadatas.name),
+                                        description: ref(metadatas.description),
+                                        Img: ref(IpfsPreLink.value + metadatas.image),
+                                        TokenId: ref(element.token_id),
+                                        Level: 0,
+                                        Price: 0.8,
+                                    })
+                                    if (metadatas.attributes) {
+                                        metadatas.attributes.forEach((objects) => {
+                                            SingleNFT[objects.trait_type] = objects.value
+                                        })
+                                    }
+                                    console.log("SingleNFT",SingleNFT)
+                                    OneNFTContract.NFT_totalSupply.push(SingleNFT)
                                 })
+                            } else {
+                                const metadatas = JSON.parse(element.metadata)
+                                if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                    metadatas.image = metadatas.image.substr(7)
+                                }
+                                const SingleNFT = reactive({
+                                    name: ref(metadatas.name),
+                                    description: ref(metadatas.description),
+                                    Img: ref(IpfsPreLink.value + metadatas.image),
+                                    TokenId: ref(element.token_id),
+                                    Level: 0,
+                                    Price: 0.8,
+                                })
+                                if (metadatas.attributes) {
+                                    metadatas.attributes.forEach((objects) => {
+                                        SingleNFT[objects.trait_type] = objects.value
+                                    })
+                                }
+                                console.log("SingleNFT",SingleNFT)
+                                OneNFTContract.NFT_totalSupply.push(SingleNFT)
                             }
-                            console.log("SingleNFT",SingleNFT)
-                            OneNFTContract.NFT_totalSupply.push(SingleNFT)
                         })
                         NFT_List.value.push(OneNFTContract)
                     })
