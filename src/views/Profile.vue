@@ -17,7 +17,7 @@
 
 			<div class="m-4 flex-row">
 				<div v-if="status === 'connected'">
-					<button @click="CheckIn" class="btn btn-outline-primary">簽到</button> |
+					<button @click="CheckIn()" class="btn btn-outline-primary" :class="CheckInBtnClass">簽到</button> |
 					<button
 						@click="isActivated ? disconnect() : open()"
 						class="btn btn-outline-danger"
@@ -113,6 +113,10 @@
 		},
 		setup() {
 			var contracts;
+			var CheckInTable;
+			const CheckInBtnClass = reactive({
+				disabled: true,
+			})
 			const UserTokenBalance = ref(0);
 			const UserAddress = ref("");
 			const colors = ref(computed(() => {
@@ -154,6 +158,8 @@
 								.call()
 								.then((res) => {
 									console.log("The login date", res);
+									CheckInTable = res;
+									CheckInBtnClass.disabled = false
 								});
 							contracts.TokenContract.methods
 								.balanceOf(UserAddress.value)
@@ -203,6 +209,7 @@
 				});
 			}
 
+			// Get All NFT of the address
 			Moapi.getTotalContractNumber().then((res) => {
 				for (let i = 0; i < res; i++) {
 					NFTContractAddressList.value.push(Moapi.getWhiteList(i))
@@ -281,15 +288,98 @@
 
 			// Function
 			function CheckIn() {
-				contracts.TokenContract.methods
-					.Login()
-					.send({ from: UserAddress.value })
-					.then((res) => {
-						console.log("Success Check In", res);
-					})
-					.catch((err) => {
-						console.log("Fail Check In", err);
-					});
+				console.log("Start CheckIn")
+				const Now = new Date();
+				const NowMonth = Now.getMonth();
+				const NowYear = Now.getFullYear();
+				const dates = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+				const LastCheckIn = new Date(CheckInTable[Now.getDate()] * 1000);
+				const CanCheckIn = ref(true)
+				if (Now.getDate() == LastCheckIn.getDate() && NowMonth == LastCheckIn.getMonth()) {
+					CanCheckIn.value = false
+				}
+				var SwalInnerHTML = `
+<style> 
+	.Checked {
+		padding: 3%;
+		font-weight: bold;
+		background-color: rgba(102, 240, 20, 60%);
+		border:#000 2px solid;
+	}
+
+	.DateTop {
+		border:#ccc 1px solid;
+	}
+
+	.NonChecked {
+		padding: 3%;
+		font-weight: bold;
+		background-color: rgba(200, 10, 10, 60%);
+	}
+	
+	.NonTime {
+		padding: 3%;
+		font-weight: bold;
+		background-color: #bbbbbb;
+	}
+
+	.NonDate {
+		background-color: #bbbbbb;
+		font-weight: bold;
+	}
+</style> ` + 
+					"<div class=\"container\"><div class=\"row\">"
+				var i = 1;
+				for (; i < 8; i++) {
+					SwalInnerHTML += "<div class=\"col DateTop\">" + i + "</div>"
+				}
+				SwalInnerHTML += "</div><div class=\"row\">"
+				i = 1
+				for (; i <= 35; i++) {
+					var ms = CheckInTable[i];
+					if (i > dates[NowMonth]) {
+						SwalInnerHTML += "<div class=\"col NonTime\"></div>"
+					} else {
+						const checkDay = new Date(parseInt(ms) * 1000)
+						if (checkDay.getMonth() == NowMonth) {
+							SwalInnerHTML += "<div class=\"col Checked\">V</div>"
+						} else {
+							SwalInnerHTML += "<div class=\"col NonChecked\">X</div>"
+						}
+					}
+					if (i % 7 == 0 && i != 35) {
+						SwalInnerHTML += "</div><div class=\"row\">"
+						for (var j = i; j < i + 7; j++) {
+							if (j < dates[NowMonth]) {
+								SwalInnerHTML += "<div class=\"col DateTop\">" + (j + 1) + "</div>"
+							} else {
+								SwalInnerHTML += "<div class=\"col NonDate\"></div>"
+							}
+						}
+						SwalInnerHTML += "</div><div class=\"row\">"
+					}
+				}
+				SwalInnerHTML += "</div></div>"
+				Swal.fire({
+					title: NowYear + "/" + NowMonth + " Check In Table",
+					confirmButtonText: 'Check In',
+					showConfirmButton: CanCheckIn.value,
+					cancelButtonText: 'Back',
+					showCancelButton: true,
+					html: SwalInnerHTML,
+				}).then((res) => {
+					if (res.isConfirmed) {
+						contracts.TokenContract.methods
+						.Login()
+						.send({ from: UserAddress.value })
+						.then((res) => {
+							console.log("Success Check In", res);
+						})
+						.catch((err) => {
+							console.log("Fail Check In", err);
+						});
+					}
+				})
 			}
 
 			function GetAllTokenIds() {
@@ -334,6 +424,7 @@
 				AllNFT,
 				shortenWords,
 				ShowSearch,
+				CheckInBtnClass,
 			};
 		},
 	};
@@ -352,4 +443,5 @@
 .AllOwnedNFT {
 	padding: 2% 0 0 0;
 }
+
 </style>
