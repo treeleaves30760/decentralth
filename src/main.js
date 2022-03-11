@@ -3,8 +3,9 @@ import App from './App.vue'
 import router from './router'
 import { VueDapp } from 'vue-dapp'
 import BootstrapVue3 from 'bootstrap-vue-3'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/src/jquery.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 const app = createApp(App)
 app.use(router)

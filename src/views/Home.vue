@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid mt-2">
-    <div class="bg-image container-fluid"></div>
+    <div class="bg-image container-fluid" style="opacity: 40%;"></div>
     <div class="home">
       <div class="introductionPart">
         <div class="row">
@@ -47,7 +47,7 @@ export default {
   /* Add the blur effect */
   filter: blur(8px);
   -webkit-filter: blur(8px);
-  opacity: 40%;
+  opacity: 0.4;
   z-index: -10;
 
   /* Full height */
