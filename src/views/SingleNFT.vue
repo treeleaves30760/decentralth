@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ref, reactive } from '@vue/reactivity'
 import { useWallet, useEthers } from 'vue-dapp'
 import Swal from 'sweetalert2'
@@ -50,11 +50,10 @@ import Moapi from "../Moralis/Marolis"
 
 export default {
     setup() {
-        const router = useRouter()
         const route = useRoute()
-        console.log(router, route)
-        console.log(route.params.tokenId)
-        console.log(route.params.contract_address)
+        // console.log(router, route)
+        // console.log(route.params.tokenId)
+        // console.log(route.params.contract_address)
 
         var contracts
         const UserAddress = ref("")
@@ -90,8 +89,6 @@ export default {
                     OneNFTContract.SingleNFT.Price = 0.8
                 }
             })
-        }).then(() => {
-            console.log(OneNFTContract)
         })
 
 
@@ -108,12 +105,6 @@ export default {
                         return contracts;
                     })
                     .then((contracts) => {
-                        contracts.TokenContract.methods
-                            .getLoginTable(UserAddress.value)
-                            .call()
-                            .then((res) => {
-                                console.log("The login date", res);
-                            });
                         contracts.TokenContract.methods
                             .balanceOf(UserAddress.value)
                             .call()

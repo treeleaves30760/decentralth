@@ -1,5 +1,4 @@
-npm run build
-pause
+call Build.bat
 xcopy dist ..\Builded /y /s
 cd ..\Builded
 copy index.html 404.html

@@ -74,7 +74,7 @@ export default {
                                 ButtonShowWords.value = "Get A NFT With " + SelectedNFTValue.value + " Token"
                             })
                             SelectedNFTAddress.value = element.contract_address
-                            console.log(SelectedNFTAddress.value)
+                            // console.log(SelectedNFTAddress.value)
                             Getable.value = 1
                             ButtonClass['disabled'] = 0
                         }
@@ -144,7 +144,7 @@ export default {
                     Moapi.ContractgetAllTokenIds(element).then((res) => {
                         return res.result
                     }).then((result) => {
-                        console.log("result", result)
+                        // console.log("result", result)
                         const OneNFTContract = {
                             NFT_name: ref(""),
                             contract_address: ref(0),
@@ -155,7 +155,7 @@ export default {
                         result.forEach(element => {
                             if (element.metadata) {
                                 const metadatas = JSON.parse(element.metadata)
-                                console.log("metadates", metadatas)
+                                // console.log("metadates", metadatas)
                                 if (metadatas.image.substring(0, 7) === "ipfs://") {
                                     metadatas.image = metadatas.image.substr(7)
                                 }
@@ -171,7 +171,7 @@ export default {
                             } else {
                                 Moapi.getNFTMetadataFromTokenUri(element.token_uri).then((metadatas) => {
                                     metadatas = JSON.parse(metadatas)
-                                    console.log("metadates", metadatas)
+                                    // console.log("metadates", metadatas)
                                     if (metadatas.image.substring(0, 7) === "ipfs://") {
                                         metadatas.image = metadatas.image.substr(7)
                                     }
@@ -222,11 +222,11 @@ export default {
                 // console.log(Moapi.storeAddr)
                 Moapi.approveToken(SelectedNFTValue.value, Moapi.storeAddr).then(() => {
                     Moapi.getNFT(SelectedNFTAddress.value).then((returnValue) => {
-                        console.log("ResUri and TokenIdReturn", returnValue)
+                        // console.log("ResUri and TokenIdReturn", returnValue)
                         const Cid = ref(returnValue.ResUri.substr(7))
                         Moapi.getNFTMetadataFromCid(Cid.value).then((res) => {
                             const metadatas = res.data
-                            console.log("Metadatas", metadatas)
+                            // console.log("Metadatas", metadatas)
                             var name = ref(metadatas.name)
                             var description = ref(metadatas.description)
                             var Img = ref(IpfsPreLink.value + metadatas.image)

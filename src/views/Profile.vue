@@ -157,7 +157,7 @@
 								.getLoginTable(UserAddress.value)
 								.call()
 								.then((res) => {
-									console.log("The login date", res);
+									// console.log("The login date", res);
 									CheckInTable = res;
 									CheckInBtnClass.disabled = false
 								});
@@ -186,7 +186,9 @@
 										.getLoginTable(UserAddress.value)
 										.call()
 										.then((res) => {
-											console.log("The login date", res);
+											// console.log("The login date", res);
+											CheckInTable = res;
+											CheckInBtnClass.disabled = false
 										});
 									contracts.TokenContract.methods
 										.balanceOf(UserAddress.value)

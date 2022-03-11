@@ -1,5 +1,5 @@
 <template>
-    <div class="Help">
+    <div class="Help p-2">
         <QA 
             Title="Test"
             Answer="Testing for a long time"

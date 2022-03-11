@@ -57,6 +57,7 @@ export default {
         const NFTContractAddressList = ref([])
         const NFT_List = ref([])
         const Selected = ref("All")
+        const ImageSet = new Set()
 
         Moapi.getTotalContractNumber().then((res) => {
             for (let i = 0; i < res; i++) {
@@ -79,6 +80,37 @@ export default {
                             if (!element.metadata) {
                                 Moapi.getNFTMetadataFromTokenUri(element.TokenId).then((metadataReturn) => {
                                     element.metadata = metadataReturn
+                                    if (ImageSet.has(element.metadata)) {
+                                        console.log("Had!!")
+                                    } else {
+                                        ImageSet.add(element.metadata)
+                                        const metadatas = JSON.parse(element.metadata)
+                                        if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                            metadatas.image = metadatas.image.substr(7)
+                                        }
+                                        const SingleNFT = reactive({
+                                            name: ref(metadatas.name),
+                                            description: ref(metadatas.description),
+                                            Img: ref(IpfsPreLink.value + metadatas.image),
+                                            TokenId: ref(element.token_id),
+                                            Level: 0,
+                                            Price: 0.8,
+                                        })
+                                        if (metadatas.attributes) {
+                                            metadatas.attributes.forEach((objects) => {
+                                                SingleNFT[objects.trait_type] = objects.value
+                                            })
+                                        }
+                                        // console.log("SingleNFT",SingleNFT)
+                                        OneNFTContract.NFT_totalSupply.push(SingleNFT)
+                                    }
+                                    console.log("Image", ImageSet)
+                                })
+                            } else {
+                                if (ImageSet.has(element.metadata)) {
+                                    console.log("Had!!")
+                                } else {
+                                    ImageSet.add(element.metadata)
                                     const metadatas = JSON.parse(element.metadata)
                                     if (metadatas.image.substring(0, 7) === "ipfs://") {
                                         metadatas.image = metadatas.image.substr(7)
@@ -96,29 +128,10 @@ export default {
                                             SingleNFT[objects.trait_type] = objects.value
                                         })
                                     }
-                                    console.log("SingleNFT",SingleNFT)
+                                    // console.log("SingleNFT",SingleNFT)
                                     OneNFTContract.NFT_totalSupply.push(SingleNFT)
-                                })
-                            } else {
-                                const metadatas = JSON.parse(element.metadata)
-                                if (metadatas.image.substring(0, 7) === "ipfs://") {
-                                    metadatas.image = metadatas.image.substr(7)
                                 }
-                                const SingleNFT = reactive({
-                                    name: ref(metadatas.name),
-                                    description: ref(metadatas.description),
-                                    Img: ref(IpfsPreLink.value + metadatas.image),
-                                    TokenId: ref(element.token_id),
-                                    Level: 0,
-                                    Price: 0.8,
-                                })
-                                if (metadatas.attributes) {
-                                    metadatas.attributes.forEach((objects) => {
-                                        SingleNFT[objects.trait_type] = objects.value
-                                    })
-                                }
-                                console.log("SingleNFT",SingleNFT)
-                                OneNFTContract.NFT_totalSupply.push(SingleNFT)
+                                console.log("Image", ImageSet)
                             }
                         })
                         NFT_List.value.push(OneNFTContract)
