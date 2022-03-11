@@ -7,7 +7,6 @@ const NFTAbi = require("../contractabi/nftabi.json")
 const tokenAbi = require("../contractabi/tokenabi.json")
 const fusionAbi = require("../contractabi/fusionnftabi.json")
 const AuctionAbi = require("../contractabi/auctionabi.json")
-const address = window.ethereum.selectedAddress
 
 const serverUrl = "https://q35jbv5jagyw.usemoralis.com:2053/server";
 const appId = "1kfWR1GvtpZwlXDhJ3sG1Fv9twJzjZ3zcn2DkBjq";
@@ -111,8 +110,8 @@ async function getNFT(contractAddress) { // Lottery get, use after approve token
     console.log(window.ethereum.selectedAddress)
     await storeContract.methods.getNFT(contractAddress).send({ from: window.ethereum.selectedAddress, gas: 3500000 });
     let NFTContract = new web3.eth.Contract(NFTAbi, contractAddress);
-    let userNum = await NFTContract.methods.balanceOf(address).call();
-    let Index = await NFTContract.methods.tokenOfOwnerByIndex(address, userNum - 1).call();
+    let userNum = await NFTContract.methods.balanceOf(window.ethereum.selectedAddress).call();
+    let Index = await NFTContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, userNum - 1).call();
     let ResUri = await NFTContract.methods.tokenURI(Index).call();
     return {ResUri, Index}
 }
