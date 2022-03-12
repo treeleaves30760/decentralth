@@ -137,8 +137,14 @@ async function getNFTMetadataFromTokenUri(Uri) {
 }
 
 async function getRecipe(cidA, cidB) {
+    console.log("CIDs", cidA, cidB);
     let cidC =  await fusionContract.methods.getRecipe(cidA, cidB).call();
-    if (cidC == "") return "";
+    if (cidC == "") {
+        cidC = await fusionContract.methods.getRecipe(cidB, cidA).call();
+        if (cidC == "") {
+            return ""
+        }
+    }
     let token_url = "https://cloudflare-ipfs.com/ipfs/" + cidC;
     let Metadata = await axios.get(token_url);
     return JSON.stringify(Metadata);

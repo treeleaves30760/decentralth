@@ -283,39 +283,47 @@ export default {
         }
 
         function CheckFusionNFT() {
-            // console.log("NFTs", NFT1, NFT2)
+            console.log("NFTs", NFT1, NFT2)
             Moapi.getRecipe(NFT1.value.cid, NFT2.value.cid).then((res) => {
-                const metadatas = JSON.parse(res).data
-                // console.log("metadatas", metadatas)
-                if (metadatas.image.substring(0, 7) === "ipfs://") {
-                    metadatas.image = metadatas.image.substr(7)
-                }
-                Swal.fire({
-                    icon: "info",
-                    title: metadatas.name,
-                    imageUrl: "https://cloudflare-ipfs.com/ipfs/" + metadatas.image,
-                    imageHeight: 100,
-                    confirmButtonText: "Fusion!",
-                    cancelButtonText: 'Back',
-                    showCancelButton: true,
-                    showCloseButton: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Moapi.fusion(NFT1.value.TokenId, NFT2.value.TokenId).then(() => {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Success!" 
-                            })
-                        }).catch((e) => {
-                            console.log("Fusion Error", e)
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error!",
-                                text: e, 
-                            })
-                        })
+                if (res == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "There is no recipe for two NFTs"
+                    })
+                } else {
+                    const metadatas = JSON.parse(res).data
+                    // console.log("metadatas", metadatas)
+                    if (metadatas.image.substring(0, 7) === "ipfs://") {
+                        metadatas.image = metadatas.image.substr(7)
                     }
-                })
+                    Swal.fire({
+                        icon: "info",
+                        title: metadatas.name,
+                        imageUrl: "https://cloudflare-ipfs.com/ipfs/" + metadatas.image,
+                        imageHeight: 100,
+                        confirmButtonText: "Fusion!",
+                        cancelButtonText: 'Back',
+                        showCancelButton: true,
+                        showCloseButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Moapi.fusion(NFT1.value.TokenId, NFT2.value.TokenId).then(() => {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!" 
+                                })
+                            }).catch((e) => {
+                                console.log("Fusion Error", e)
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: e, 
+                                })
+                            })
+                        }
+                    })
+                }
+                
             })
             
         }

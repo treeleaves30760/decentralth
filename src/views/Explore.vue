@@ -81,7 +81,7 @@ export default {
                                 Moapi.getNFTMetadataFromTokenUri(element.TokenId).then((metadataReturn) => {
                                     element.metadata = metadataReturn
                                     if (ImageSet.has(element.metadata)) {
-                                        console.log("Had!!")
+                                        // console.log("Had!!")
                                     } else {
                                         ImageSet.add(element.metadata)
                                         const metadatas = JSON.parse(element.metadata)
@@ -104,11 +104,11 @@ export default {
                                         // console.log("SingleNFT",SingleNFT)
                                         OneNFTContract.NFT_totalSupply.push(SingleNFT)
                                     }
-                                    console.log("Image", ImageSet)
+                                    // console.log("Image", ImageSet)
                                 })
                             } else {
                                 if (ImageSet.has(element.metadata)) {
-                                    console.log("Had!!")
+                                    // console.log("Had!!")
                                 } else {
                                     ImageSet.add(element.metadata)
                                     const metadatas = JSON.parse(element.metadata)
@@ -131,7 +131,7 @@ export default {
                                     // console.log("SingleNFT",SingleNFT)
                                     OneNFTContract.NFT_totalSupply.push(SingleNFT)
                                 }
-                                console.log("Image", ImageSet)
+                                // console.log("Image", ImageSet)
                             }
                         })
                         NFT_List.value.push(OneNFTContract)
