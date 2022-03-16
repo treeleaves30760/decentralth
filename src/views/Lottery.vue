@@ -25,6 +25,12 @@ import Moapi from "../Moralis/Marolis.js"
 import { ref, reactive } from "@vue/reactivity"
 import { useWallet } from "vue-dapp";
 import Swal from "sweetalert2";
+async function delays(n) {
+    return new Promise(function(resolve){
+        setTimeout(resolve,n*1000);
+    });
+}
+
 export default {
     name: 'Lottery',
     setup() {
@@ -232,44 +238,47 @@ export default {
                                 icon: "success",
                                 title: "Success Approve!"
                             })
-                            Swal.update({
-                                icon: "info",
-                                title: "Drawing NFT"
-                            })
-                            
-                            
-                            Moapi.getNFT(SelectedNFTAddress.value).then((returnValue) => {
-                                // console.log("ResUri and TokenIdReturn", returnValue)
-                                const Cid = ref(returnValue.ResUri.substr(7))
-                                Moapi.getNFTMetadataFromCid(Cid.value).then((res) => {
-                                    const metadatas = res.data
-                                    // console.log("Metadatas", metadatas)
-                                    var name = ref(metadatas.name)
-                                    var description = ref(metadatas.description)
-                                    var Img = ref(IpfsPreLink.value + metadatas.image)
-                                    var TokenId = ref(returnValue.Index)
-                                    Swal.fire({
-                                        icon: "success",
-                                        title: "You Get " + name.value,
-                                        text: description.value,
-                                        imageUrl: Img.value,
-                                        imageHeight: 300,
-                                        showConfirmButton: 1,
-                                        confirmButtonText: "Check NFT",
-                                    }).then((res) => {
-                                        if (res.isConfirmed) {
-                                            let pathArr = window.location.href.split("/")
-                                            pathArr.pop()
-                                            let path = pathArr.join("/")
-                                            window.location.assign(path + "/" + SelectedNFTAddress.value + "/" + TokenId.value)
-                                        }
-                                    })
+                            delays(3).then(() => {
+                                Swal.update({
+                                    icon: "info",
+                                    title: "Drawing NFT"
                                 })
-                            }).catch((error) => {
-                                console.log("GetNFT happen error! ",error)
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "System Wrong",
+                                Moapi.getNFT(SelectedNFTAddress.value).then((returnValue) => {
+                                    // console.log("ResUri and TokenIdReturn", returnValue)
+                                    const Cid = ref(returnValue.ResUri.substr(7))
+                                    Moapi.getNFTMetadataFromCid(Cid.value).then((res) => {
+                                        const metadatas = res.data
+                                        // console.log("Metadatas", metadatas)
+                                        var name = ref(metadatas.name)
+                                        var description = ref(metadatas.description)
+                                        if (metadatas.image.substring(0, 7) === "ipfs://") {
+                                            metadatas.image = metadatas.image.substr(7)
+                                        }
+                                        var Img = ref(IpfsPreLink.value + metadatas.image)
+                                        var TokenId = ref(returnValue.Index)
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "You Get " + name.value,
+                                            text: description.value,
+                                            imageUrl: Img.value,
+                                            imageHeight: 300,
+                                            showConfirmButton: 1,
+                                            confirmButtonText: "Check NFT",
+                                        }).then((res) => {
+                                            if (res.isConfirmed) {
+                                                let pathArr = window.location.href.split("/")
+                                                pathArr.pop()
+                                                let path = pathArr.join("/")
+                                                window.location.assign(path + "/" + SelectedNFTAddress.value + "/" + TokenId.value)
+                                            }
+                                        })
+                                    })
+                                }).catch((error) => {
+                                    console.log("GetNFT happen error! ",error)
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "System Wrong",
+                                    })
                                 })
                             })
                         }).catch((error) => {

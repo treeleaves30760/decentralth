@@ -221,7 +221,7 @@
 						Moapi.getNFTFromAddr(window.ethereum.selectedAddress, element).then((res) => {
 							return res.result
 						}).then((result) => {
-							console.log("Try to get the ALL NFT", result)
+							// console.log("Try to get the ALL NFT", result)
 							const OneNFTContract = {
 								NFT_name: ref(result[0].name),
 								contract_address: ref(result[0].token_address),
@@ -273,7 +273,7 @@
 											SingleNFT[objects.trait_type] = objects.value
 										})
 									}
-									console.log("SingleNFT",SingleNFT)
+									// console.log("SingleNFT",SingleNFT)
 									AllNFT.value.push(SingleNFT)
 									OneNFTContract.NFT_totalSupply.push(SingleNFT)
 								}
@@ -292,7 +292,7 @@
 
 			// Function
 			function CheckIn() {
-				console.log("Start CheckIn")
+				// console.log("Start CheckIn")
 				const Now = new Date();
 				const NowMonth = Now.getMonth();
 				const NowYear = Now.getFullYear();
