@@ -43,7 +43,7 @@ export default {
         const ButtonClass = reactive({
             'btn-outline-warning': 0,
             'btn-warning': 1,
-            'disabled': !Getable.value,
+            'disabled': Getable.value == 0 ? 1 : 0,
         })
         const { connect } = useWallet();
         const blink = setInterval(() => {
@@ -219,37 +219,70 @@ export default {
                     text: "You have " + UserTokenBalance.value + " Token ,but get one " + Selected.value + " need " + SelectedNFTValue.value + " Token",
                 })
             } else {
-                // console.log(Moapi.storeAddr)
-                Moapi.approveToken(SelectedNFTValue.value, Moapi.storeAddr).then(() => {
-                    Moapi.getNFT(SelectedNFTAddress.value).then((returnValue) => {
-                        // console.log("ResUri and TokenIdReturn", returnValue)
-                        const Cid = ref(returnValue.ResUri.substr(7))
-                        Moapi.getNFTMetadataFromCid(Cid.value).then((res) => {
-                            const metadatas = res.data
-                            // console.log("Metadatas", metadatas)
-                            var name = ref(metadatas.name)
-                            var description = ref(metadatas.description)
-                            var Img = ref(IpfsPreLink.value + metadatas.image)
-                            var TokenId = ref(returnValue.Index)
-                            Swal.fire({
+                Getable.value = 0;
+                ButtonClass.disabled = 1;
+                Swal.fire({
+                    icon: "info",
+                    title: "Approve Token For Contract",
+                    text: "Please Check Your Metamask",
+                    showConfirmButton: 0,
+                    didOpen: () => {
+                        Moapi.approveToken(SelectedNFTValue.value, Moapi.storeAddr).then(() => {
+                            Swal.update({
                                 icon: "success",
-                                title: "You Get " + name.value,
-                                text: description.value,
-                                imageUrl: Img.value,
-                                imageHeight: 300,
-                                html: "<a herf=\"../" + SelectedNFTAddress.value + "/" + TokenId.value + "\"><button class=\"btn btn-outline-primary\">Check NFT</button></a>"
+                                title: "Success Approve!"
+                            })
+                            Swal.update({
+                                icon: "info",
+                                title: "Drawing NFT"
+                            })
+                            
+                            
+                            Moapi.getNFT(SelectedNFTAddress.value).then((returnValue) => {
+                                // console.log("ResUri and TokenIdReturn", returnValue)
+                                const Cid = ref(returnValue.ResUri.substr(7))
+                                Moapi.getNFTMetadataFromCid(Cid.value).then((res) => {
+                                    const metadatas = res.data
+                                    // console.log("Metadatas", metadatas)
+                                    var name = ref(metadatas.name)
+                                    var description = ref(metadatas.description)
+                                    var Img = ref(IpfsPreLink.value + metadatas.image)
+                                    var TokenId = ref(returnValue.Index)
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "You Get " + name.value,
+                                        text: description.value,
+                                        imageUrl: Img.value,
+                                        imageHeight: 300,
+                                        showConfirmButton: 1,
+                                        confirmButtonText: "Check NFT",
+                                    }).then((res) => {
+                                        if (res.isConfirmed) {
+                                            let pathArr = window.location.href.split("/")
+                                            pathArr.pop()
+                                            let path = pathArr.join("/")
+                                            window.location.assign(path + "/" + SelectedNFTAddress.value + "/" + TokenId.value)
+                                        }
+                                    })
+                                })
+                            }).catch((error) => {
+                                console.log("GetNFT happen error! ",error)
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "System Wrong",
+                                })
+                            })
+                        }).catch((error) => {
+                            console.log("Approve happen error!", error)
+                            Swal.fire({
+                                icon: "error",
+                                title: "System Wrong",
                             })
                         })
-                    }).catch((error) => {
-                        console.log(error)
-                        Swal.fire({
-                            icon: "error",
-                            title: "Something Wrong",
-                            text: error
-                        })
-                    })
-                }).catch((e) => {
-                    console.log("Approve part had a ERROR!!", e)
+                    }
+                }).then(() => {
+                    Getable.value = 1;
+                    ButtonClass.disabled = 0;
                 })
             }
         }

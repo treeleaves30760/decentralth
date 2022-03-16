@@ -221,7 +221,7 @@
 						Moapi.getNFTFromAddr(window.ethereum.selectedAddress, element).then((res) => {
 							return res.result
 						}).then((result) => {
-							// console.log("Try to get the ALL NFT")
+							console.log("Try to get the ALL NFT", result)
 							const OneNFTContract = {
 								NFT_name: ref(result[0].name),
 								contract_address: ref(result[0].token_address),
@@ -237,6 +237,7 @@
 											metadatas.image = metadatas.image.substr(7)
 										}
 										const SingleNFT = reactive({
+											contract_address: ref(result[0].token_address),
 											name: ref(metadatas.name),
 											description: ref(metadatas.description),
 											Img: ref(IpfsPreLink.value + metadatas.image),
@@ -259,6 +260,7 @@
 										metadatas.image = metadatas.image.substr(7)
 									}
 									const SingleNFT = reactive({
+										contract_address: ref(result[0].token_address),
 										name: ref(metadatas.name),
 										description: ref(metadatas.description),
 										Img: ref(IpfsPreLink.value + metadatas.image),
@@ -271,7 +273,7 @@
 											SingleNFT[objects.trait_type] = objects.value
 										})
 									}
-									// console.log("SingleNFT",SingleNFT)
+									console.log("SingleNFT",SingleNFT)
 									AllNFT.value.push(SingleNFT)
 									OneNFTContract.NFT_totalSupply.push(SingleNFT)
 								}

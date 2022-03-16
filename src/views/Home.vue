@@ -38,7 +38,6 @@ export default {
 <style scoped>
 .home {
   margin: auto;
-  height: 1000rem;
 }
 
 .bg-image {
